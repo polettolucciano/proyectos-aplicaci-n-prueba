@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HD Padel | Reservas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #10253f;
+      --muted: #6d7f95;
+      --blue: #1769e0;
+      --blue-deep: #0e4caf;
+      --blue-pale: #eaf2ff;
+      --ice: #f5f8fc;
+      --line: #dce6f1;
+      --orange: #ff8a4c;
+      --green: #168568;
+      --white: #ffffff;
+      --shadow: 0 20px 50px rgba(20, 66, 122, .10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--ice);
+      font-family: "DM Sans", sans-serif;
+      min-width: 320px;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell { min-height: 100vh; }
+    .topbar {
+      align-items: center;
+      background: var(--white);
+      border-bottom: 1px solid rgba(220, 230, 241, .8);
+      display: flex;
+      height: 80px;
+      justify-content: space-between;
+      padding: 0 5vw;
+    }
+    .brand { align-items: center; display: flex; gap: 12px; }
+    .brand-mark {
+      align-items: center;
+      background: var(--blue);
+      border-radius: 12px;
+      color: white;
+      display: flex;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      height: 40px;
+      justify-content: center;
+      letter-spacing: -1px;
+      width: 40px;
+    }
+    .brand-name { font-family: "Space Grotesk", sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.5px; }
+    .brand-name span { color: var(--blue); }
+    .topbar-right { align-items: center; display: flex; gap: 20px; }
+    .location { color: var(--muted); font-size: 13px; }
+    .profile-button {
+      align-items: center;
+      background: var(--blue-pale);
+      border: 0;
+      border-radius: 50%;
+      color: var(--blue-deep);
+      display: flex;
+      font-size: 13px;
+      font-weight: 700;
+      height: 36px;
+      justify-content: center;
+      width: 36px;
+    }
+    .role-switcher { align-items: center; background: var(--ice); border: 1px solid var(--line); border-radius: 10px; display: flex; gap: 3px; padding: 3px; }
+    .role-button { background: transparent; border: 0; border-radius: 7px; color: var(--muted); font-size: 11px; font-weight: 700; padding: 8px 10px; }
+    .role-button.active { background: var(--white); box-shadow: 0 2px 7px rgba(20, 66, 122, .12); color: var(--blue-deep); }
+    main { margin: 0 auto; max-width: 1440px; padding: 44px 5vw 72px; }
+    .welcome { align-items: end; display: flex; justify-content: space-between; margin-bottom: 30px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: 1.6px; margin: 0 0 8px; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-family: "Space Grotesk", sans-serif; font-size: clamp(30px, 4vw, 48px); letter-spacing: -2px; line-height: 1; margin-bottom: 12px; }
+    .welcome-copy { color: var(--muted); font-size: 15px; margin: 0; }
+    .hero-court { background: #b8d1e0; border: 1px solid #b3c8d6; border-radius: 18px; box-shadow: 0 15px 26px rgba(18, 64, 102, .12); height: 142px; margin-left: 28px; overflow: hidden; position: relative; width: 245px; }
+    .hero-court img { height: 100%; object-fit: cover; object-position: center; width: 100%; }
+    .hero-court::after { background: linear-gradient(180deg, transparent 35%, rgba(8, 29, 48, .48)); content: ""; inset: 0; position: absolute; }
+    .hero-badge { background: rgba(13, 60, 107, .88); border: 1px solid rgba(255,255,255,.45); border-radius: 7px; bottom: 12px; color: white; font-family: "Space Grotesk", sans-serif; font-size: 10px; font-weight: 700; left: 12px; letter-spacing: 1px; padding: 7px 9px; position: absolute; z-index: 1; }
+    .ball-i { color: var(--blue); display: inline-block; position: relative; }
+    .ball-i::before { background: #c8ef52; border: 2px solid var(--white); border-radius: 50%; content: ""; height: 7px; left: 50%; position: absolute; top: -4px; transform: translateX(-50%); width: 7px; }
+    .date-chip { align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 50px; color: var(--ink); display: flex; font-size: 13px; font-weight: 600; gap: 8px; padding: 11px 15px; }
+    .layout { align-items: start; display: grid; gap: 24px; grid-template-columns: minmax(0, 1.75fr) minmax(310px, .8fr); }
+    .content-column { display: grid; gap: 24px; }
+    .panel { background: var(--white); border: 1px solid rgba(220, 230, 241, .85); border-radius: 18px; box-shadow: var(--shadow); }
+    .panel-header { align-items: center; display: flex; justify-content: space-between; padding: 24px 26px 18px; }
+    .panel-title { font-family: "Space Grotesk", sans-serif; font-size: 18px; letter-spacing: -.5px; margin: 0; }
+    .panel-subtitle { color: var(--muted); font-size: 12px; margin: 5px 0 0; }
+    .calendar-panel { overflow: hidden; }
+    .calendar-nav { align-items: center; display: flex; gap: 8px; }
+    .month-label { font-family: "Space Grotesk", sans-serif; font-size: 15px; min-width: 142px; text-align: center; }
+    .icon-button { align-items: center; background: transparent; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); display: flex; font-size: 20px; height: 32px; justify-content: center; line-height: 1; width: 32px; }
+    .icon-button:hover { background: var(--blue-pale); border-color: #bfd4f5; color: var(--blue); }
+    .calendar { padding: 0 26px 26px; }
+    .weekdays, .days { display: grid; grid-template-columns: repeat(7, 1fr); }
+    .weekdays { color: #91a1b5; font-size: 11px; font-weight: 700; letter-spacing: .6px; margin-bottom: 9px; text-align: center; text-transform: uppercase; }
+    .day { background: transparent; border: 0; border-radius: 10px; color: var(--ink); font-size: 13px; height: 42px; margin: 2px; position: relative; }
+    .day:hover:not(:disabled) { background: var(--blue-pale); color: var(--blue); }
+    .day.muted { color: #b8c3cf; }
+    .day.today::after { background: var(--orange); border-radius: 50%; bottom: 5px; content: ""; height: 4px; left: calc(50% - 2px); position: absolute; width: 4px; }
+    .day.selected { background: var(--blue); color: white; font-weight: 700; }
+    .day.selected::after { background: white; }
+    .day:disabled { color: #cbd4df; cursor: not-allowed; }
+    .courts-panel { padding-bottom: 24px; }
+    .court-grid { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); padding: 0 26px; }
+    .court-card { background: #fbfcfe; border: 1px solid var(--line); border-radius: 13px; padding: 15px; transition: .2s ease; }
+    .court-card:hover, .court-card.active { border-color: var(--blue); box-shadow: 0 8px 22px rgba(23, 105, 224, .12); transform: translateY(-2px); }
+    .court-card.active { background: var(--blue-pale); }
+    .court-top { align-items: center; display: flex; justify-content: space-between; margin-bottom: 18px; }
+    .court-number { align-items: center; background: #dfeafe; border-radius: 8px; color: var(--blue-deep); display: flex; font-family: "Space Grotesk", sans-serif; font-size: 14px; font-weight: 700; height: 32px; justify-content: center; width: 32px; }
+    .status { align-items: center; color: var(--green); display: flex; font-size: 10px; gap: 4px; }
+    .status::before { background: #36bb8e; border-radius: 50%; content: ""; height: 6px; width: 6px; }
+    .court-name { font-family: "Space Grotesk", sans-serif; font-size: 14px; margin-bottom: 4px; }
+    .court-info { color: var(--muted); font-size: 11px; }
+    .time-section { padding: 0 26px; }
+    .time-head { align-items: end; display: flex; justify-content: space-between; margin: 0 0 14px; }
+    .time-head h3 { font-size: 15px; margin: 0; }
+    .price-legend { align-items: center; display: flex; gap: 13px; }
+    .legend-item { align-items: center; color: var(--muted); display: flex; font-size: 11px; gap: 5px; }
+    .legend-dot { border-radius: 50%; height: 7px; width: 7px; }
+    .legend-dot.daylight { background: #ffbd5c; }
+    .legend-dot.light { background: var(--blue); }
+    .time-grid { display: grid; gap: 8px; grid-template-columns: repeat(5, 1fr); }
+    .time-button { background: var(--white); border: 1px solid var(--line); border-radius: 9px; color: var(--ink); padding: 11px 5px 9px; transition: .15s; }
+    .time-button:hover { border-color: var(--blue); color: var(--blue); }
+    .time-button.selected { background: var(--blue); border-color: var(--blue); color: white; }
+    .time { display: block; font-size: 13px; font-weight: 700; }
+    .time-price { color: var(--muted); display: block; font-size: 10px; margin-top: 4px; }
+    .time-button.selected .time-price { color: #d8e8ff; }
+    .market-panel { padding-bottom: 20px; }
+    .products { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); padding: 0 26px; }
+    .product { align-items: center; border-top: 1px solid var(--line); display: flex; gap: 11px; padding: 13px 0; }
+    .product-visual { align-items: center; background: #fff2df; border-radius: 10px; display: flex; font-size: 21px; height: 42px; justify-content: center; width: 42px; }
+    .product:nth-child(2) .product-visual { background: #e8f7f3; }
+    .product:nth-child(3) .product-visual { background: #eaf2ff; }
+    .product:nth-child(4) .product-visual { background: #fff0f1; }
+    .product-detail { flex: 1; min-width: 0; }
+    .product-name { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+    .product-price { color: var(--muted); font-size: 11px; }
+    .product-prompt { color: var(--blue); font-size: 10px; margin-top: 4px; }
+    .quantity { align-items: center; display: flex; gap: 5px; }
+    .quantity button { align-items: center; background: var(--ice); border: 0; border-radius: 6px; color: var(--blue-deep); display: flex; font-size: 16px; height: 25px; justify-content: center; width: 25px; }
+    .quantity button:hover { background: var(--blue-pale); }
+    .quantity-value { font-size: 12px; min-width: 13px; text-align: center; }
+    .summary { background: var(--ink); color: white; overflow: hidden; position: sticky; top: 20px; }
+    .summary-top { background: #153b66; padding: 25px 25px 21px; }
+    .summary-label { color: #a8c7ea; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }
+    .summary h2 { font-family: "Space Grotesk", sans-serif; font-size: 23px; letter-spacing: -.8px; margin: 10px 0 6px; }
+    .summary-date { color: #c2d4eb; font-size: 13px; }
+    .summary-body { padding: 23px 25px 25px; }
+    .summary-row { align-items: center; border-bottom: 1px solid rgba(255,255,255,.12); display: flex; justify-content: space-between; padding: 11px 0; }
+    .summary-row:first-child { padding-top: 0; }
+    .summary-item { color: #c3d2e3; font-size: 12px; }
+    .summary-value { font-size: 13px; font-weight: 700; }
+    .summary-sub { color: #91a7c1; display: block; font-size: 10px; font-weight: 400; margin-top: 3px; }
+    .summary-total { align-items: end; display: flex; justify-content: space-between; padding: 22px 0 19px; }
+    .summary-total-label { color: #a8c7ea; font-size: 11px; }
+    .summary-total-value { font-family: "Space Grotesk", sans-serif; font-size: 27px; }
+    .customer-payment { border-top: 1px solid rgba(255,255,255,.12); margin-top: 16px; padding-top: 16px; }
+    .customer-payment-title { color: #c3d2e3; font-size: 12px; margin: 0 0 9px; }
+    .payer-count { display: flex; gap: 5px; }
+    .payer-count button { background: #23496f; border: 1px solid #315b84; border-radius: 6px; color: #c3d2e3; font-size: 11px; padding: 6px 9px; }
+    .payer-count button.active { background: var(--blue); border-color: var(--blue); color: white; }
+    .payer-names { display: grid; gap: 6px; margin-top: 8px; }
+    .payer-names input { background: #23496f; border: 1px solid #315b84; border-radius: 6px; color: white; font-size: 11px; padding: 7px 8px; width: 100%; }
+    .payer-share { color: #91a7c1; font-size: 10px; margin: 8px 0 0; }
+    .reserve-button { background: var(--orange); border: 0; border-radius: 10px; color: #321909; font-size: 14px; font-weight: 700; padding: 14px; width: 100%; }
+    .reserve-button:hover { background: #ff9e67; }
+    .reserve-note { color: #91a7c1; font-size: 10px; line-height: 1.5; margin: 13px 0 0; text-align: center; }
+    .contact-field { border-top: 1px solid rgba(255,255,255,.12); margin: 16px 0 0; padding-top: 16px; }
+    .contact-field label { color: #c3d2e3; display: block; font-size: 11px; margin-bottom: 7px; }
+    .contact-field input { background: #23496f; border: 1px solid #315b84; border-radius: 7px; color: white; font-size: 12px; padding: 9px 10px; width: 100%; }
+    .contact-field input::placeholder { color: #91a7c1; }
+    .contact-field input:focus { border-color: #83b7ff; outline: 2px solid rgba(131,183,255,.2); }
+    .empty-selection { color: #8ba2bc; font-size: 12px; padding: 15px 0 5px; }
+    .operations { display: none; gap: 24px; margin-top: 24px; }
+    .operations.visible { display: grid; }
+    .operations-header { align-items: end; display: flex; justify-content: space-between; margin-bottom: 18px; }
+    .operations-title { font-family: "Space Grotesk", sans-serif; font-size: 23px; letter-spacing: -.8px; margin: 0 0 5px; }
+    .operations-subtitle { color: var(--muted); font-size: 13px; margin: 0; }
+    .dashboard-grid { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); }
+    .metric { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; }
+    .metric-value { color: var(--ink); font-family: "Space Grotesk", sans-serif; font-size: 25px; margin-top: 9px; }
+    .metric-note { color: var(--green); font-size: 11px; margin-top: 4px; }
+    .admin-grid { display: grid; gap: 24px; grid-template-columns: minmax(0, 1.5fr) minmax(280px, .8fr); }
+    .admin-panel { background: var(--white); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .admin-panel-header { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; padding: 19px 21px; }
+    .admin-panel-title { font-family: "Space Grotesk", sans-serif; font-size: 16px; margin: 0; }
+    .admin-table { border-collapse: collapse; width: 100%; }
+    .admin-table th { color: var(--muted); font-size: 10px; letter-spacing: .6px; padding: 13px 15px; text-align: left; text-transform: uppercase; }
+    .admin-table td { border-top: 1px solid var(--line); font-size: 12px; padding: 13px 15px; vertical-align: middle; }
+    .admin-table input, .admin-table select, .expense-form input { background: var(--ice); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; padding: 7px 8px; width: 100%; }
+    .admin-table input:focus, .admin-table select:focus, .expense-form input:focus { border-color: var(--blue); outline: 2px solid var(--blue-pale); }
+    .payment-toggle { border: 0; border-radius: 50px; font-size: 10px; font-weight: 700; padding: 7px 10px; }
+    .payment-toggle.paid { background: #e2f6ef; color: var(--green); }
+    .payment-toggle.pending { background: #fff0e6; color: #bb5e25; }
+    .detail-button { background: var(--blue-pale); border: 0; border-radius: 7px; color: var(--blue-deep); font-size: 10px; font-weight: 700; padding: 7px 9px; }
+    .booking-detail-row td { background: #f8fbff; padding: 0 15px 17px; }
+    .booking-detail { border-top: 1px dashed var(--line); display: grid; gap: 18px; grid-template-columns: 1fr 1fr; padding-top: 16px; }
+    .detail-heading { font-size: 11px; font-weight: 700; margin: 0 0 10px; }
+    .check-list, .payer-list { display: grid; gap: 7px; }
+    .check-item, .payer-item { align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 7px; display: flex; gap: 8px; padding: 8px; }
+    .check-item input, .payer-item input[type="checkbox"] { accent-color: var(--blue); }
+    .check-item label, .payer-item label { flex: 1; font-size: 11px; }
+    .check-item span, .payer-item span { color: var(--muted); font-size: 10px; }
+    .split-control { align-items: center; display: flex; gap: 8px; margin-bottom: 8px; }
+    .split-control select { background: var(--ice); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; padding: 6px; }
+    .detail-total { color: var(--muted); font-size: 10px; margin: 8px 0 0; }
+    .stock-list { padding: 5px 21px 17px; }
+    .stock-row { align-items: center; border-bottom: 1px solid var(--line); display: flex; gap: 10px; padding: 13px 0; }
+    .stock-row:last-child { border-bottom: 0; }
+    .stock-icon { align-items: center; background: var(--blue-pale); border-radius: 8px; display: flex; font-size: 17px; height: 34px; justify-content: center; width: 34px; }
+    .stock-info { flex: 1; }
+    .stock-name { font-size: 12px; font-weight: 700; }
+    .stock-bar { background: #e9eff6; border-radius: 9px; height: 5px; margin-top: 6px; overflow: hidden; }
+    .stock-fill { background: var(--blue); border-radius: 9px; height: 100%; }
+    .stock-count { font-family: "Space Grotesk", sans-serif; font-size: 15px; }
+    .expense-form { align-items: end; display: grid; gap: 10px; grid-template-columns: 1fr 1fr auto; padding: 18px 21px; }
+    .field-label { color: var(--muted); display: block; font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+    .small-button { background: var(--blue); border: 0; border-radius: 8px; color: white; font-size: 11px; font-weight: 700; padding: 8px 12px; }
+    .small-button:hover { background: var(--blue-deep); }
+    .action-wrap { position: relative; }
+    .add-booking-icon { align-items: center; background: var(--blue); border: 0; border-radius: 8px; color: white; display: flex; font-size: 21px; height: 32px; justify-content: center; width: 32px; }
+    .add-booking-icon:hover { background: var(--blue-deep); }
+    .quick-booking { background: var(--white); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 15px 35px rgba(20, 66, 122, .16); display: none; padding: 15px; position: absolute; right: 0; top: 42px; width: 290px; z-index: 3; }
+    .quick-booking.visible { display: block; }
+    .quick-booking-grid { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; }
+    .quick-booking-grid label:first-child { grid-column: 1 / -1; }
+    .quick-booking input, .quick-booking select { background: var(--ice); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; padding: 8px; width: 100%; }
+    .empty-table { color: var(--muted); font-size: 12px; padding: 20px; text-align: center; }
+    .owner-finance { display: none; gap: 24px; }
+    .owner-finance.visible { display: grid; }
+    .finance-toolbar { align-items: center; display: flex; justify-content: space-between; margin-bottom: 17px; }
+    .period-switcher { background: var(--ice); border: 1px solid var(--line); border-radius: 9px; display: flex; gap: 2px; padding: 3px; }
+    .period-button { background: transparent; border: 0; border-radius: 6px; color: var(--muted); font-size: 11px; font-weight: 700; padding: 7px 11px; }
+    .period-button.active { background: var(--white); box-shadow: 0 2px 6px rgba(20, 66, 122, .1); color: var(--blue-deep); }
+    .charts-grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+    .chart-panel { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 21px; }
+    .chart-title { font-family: "Space Grotesk", sans-serif; font-size: 16px; margin: 0 0 3px; }
+    .chart-subtitle { color: var(--muted); font-size: 11px; margin: 0 0 20px; }
+    .chart { align-items: end; display: flex; gap: 10px; height: 160px; }
+    .chart-column { align-items: center; display: flex; flex: 1; flex-direction: column; height: 100%; justify-content: end; min-width: 0; }
+    .chart-value { color: var(--muted); font-size: 9px; margin-bottom: 5px; min-height: 11px; }
+    .chart-bar { background: var(--blue); border-radius: 5px 5px 2px 2px; min-height: 3px; width: 100%; }
+    .chart-bar.debt { background: var(--orange); }
+    .debt-bars { align-items: end; display: flex; gap: 3px; height: 110px; width: 100%; }
+    .debt-bar { background: var(--blue); border-radius: 4px 4px 2px 2px; flex: 1; min-height: 3px; }
+    .debt-bar.pending { background: var(--orange); }
+    .chart-label { color: var(--muted); font-size: 9px; margin-top: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .chart-legend { align-items: center; color: var(--muted); display: flex; font-size: 10px; gap: 14px; margin-top: 17px; }
+    .chart-legend span { align-items: center; display: flex; gap: 5px; }
+    .chart-legend i { border-radius: 50%; height: 7px; width: 7px; }
+    .chart-legend .income-dot { background: var(--blue); }
+    .chart-legend .debt-dot { background: var(--orange); }
+    .toast { background: var(--ink); border-radius: 10px; bottom: 22px; color: white; font-size: 13px; left: 50%; opacity: 0; padding: 13px 18px; pointer-events: none; position: fixed; transform: translate(-50%, 15px); transition: .25s; z-index: 5; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .summary { position: static; }
+      .summary-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0 25px; }
+      .summary-total, .reserve-button, .reserve-note { grid-column: 1 / -1; }
+    }
+    @media (max-width: 640px) {
+      .topbar { height: 68px; padding: 0 20px; }
+      .location { display: none; }
+      main { padding: 30px 16px 52px; }
+      .welcome { align-items: start; display: block; }
+      .hero-court { margin: 24px 0 0; max-width: 245px; width: 100%; }
+      .date-chip { margin-top: 18px; width: fit-content; }
+      .panel-header { padding: 19px 17px 15px; }
+      .calendar { padding: 0 13px 17px; }
+      .court-grid { grid-template-columns: repeat(2, 1fr); padding: 0 17px; }
+      .time-section { padding: 0 17px; }
+      .time-grid { grid-template-columns: repeat(3, 1fr); }
+      .price-legend { display: none; }
+      .products { grid-template-columns: 1fr; padding: 0 17px; }
+      .role-switcher { gap: 1px; padding: 2px; }
+      .role-button { font-size: 9px; padding: 7px 6px; }
+      .dashboard-grid, .admin-grid { grid-template-columns: 1fr 1fr; }
+      .admin-grid { gap: 16px; }
+      .expense-form { grid-template-columns: 1fr; }
+      .admin-table { min-width: 650px; }
+      .admin-panel:has(.admin-table) { overflow-x: auto; }
+      .finance-toolbar { align-items: start; flex-direction: column; gap: 13px; }
+      .summary-top, .summary-body { padding-left: 19px; padding-right: 19px; }
+      .summary-body { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">HD</div>
+        <div class="brand-name">hd <span>padel</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="location">Buenos Aires, Argentina</div>
+        <div class="role-switcher" aria-label="Cambiar vista">
+          <button class="role-button active" data-role="cliente">Cliente</button>
+          <button class="role-button" data-role="encargado">Encargado</button>
+          <button class="role-button" data-role="dueno">Dueño</button>
+        </div>
+        <button class="profile-button" aria-label="Perfil">LP</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="welcome">
+        <div>
+          <p class="eyebrow">Reservas online</p>
+          <h1>Tu próximo part<span class="ball-i">i</span>do<br>empieza acá.</h1>
+          <p class="welcome-copy">Elegí día, cancha y horario. Nosotros nos ocupamos del resto.</p>
+        </div>
+        <div class="hero-court"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Padel_rackets_and_balls.jpg" alt="Paletas y pelotas de pádel reales" /><span class="hero-badge">HD PADEL</span></div>
+        <div class="date-chip"><span>◷</span><span id="selectedDateChip">Seleccioná una fecha</span></div>
+      </section>
+
+      <div class="layout">
+        <div class="content-column">
+          <section class="panel calendar-panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">¿Cuándo venís a jugar?</h2>
+                <p class="panel-subtitle">Seleccioná una fecha disponible</p>
+              </div>
+              <div class="calendar-nav">
+                <button class="icon-button" id="prevMonth" aria-label="Mes anterior">‹</button>
+                <div class="month-label" id="monthLabel"></div>
+                <button class="icon-button" id="nextMonth" aria-label="Mes siguiente">›</button>
+              </div>
+            </div>
+            <div class="calendar">
+              <div class="weekdays"><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span></div>
+              <div class="days" id="calendarDays"></div>
+            </div>
+          </section>
+
+          <section class="panel courts-panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Elegí tu cancha</h2>
+                <p class="panel-subtitle">Todas cuentan con césped sintético premium</p>
+              </div>
+            </div>
+            <div class="court-grid" id="courtGrid"></div>
+          </section>
+
+          <section class="panel time-panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Elegí el horario</h2>
+                <p class="panel-subtitle">La tarifa con luz se aplica desde las 18:00</p>
+              </div>
+            </div>
+            <div class="time-section">
+              <div class="time-head">
+                <h3>Turnos de 1 hora</h3>
+                <div class="price-legend"><span class="legend-item"><i class="legend-dot daylight"></i>Sin luz</span><span class="legend-item"><i class="legend-dot light"></i>Con luz</span></div>
+              </div>
+              <div class="time-grid" id="timeGrid"></div>
+            </div>
+          </section>
+
+          <section class="panel market-panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Sumale algo al partido</h2>
+                <p class="panel-subtitle">Pedilo en la cancha y te lo preparamos</p>
+              </div>
+              <span class="eyebrow" style="margin:0; color:var(--orange);">Mercado</span>
+            </div>
+            <div class="products" id="products"></div>
+          </section>
+        </div>
+
+        <aside class="panel summary">
+          <div class="summary-top">
+            <div class="summary-label">Tu reserva</div>
+            <h2 id="summaryCourt">Elegí una cancha</h2>
+            <div class="summary-date" id="summaryDate">Elegí fecha y horario para continuar</div>
+          </div>
+          <div class="summary-body">
+            <div id="summaryDetails"><p class="empty-selection">Completá los datos de tu partido y vas a ver el detalle acá.</p></div>
+            <div class="summary-total"><div class="summary-total-label">Total estimado</div><div class="summary-total-value" id="summaryTotal">$0</div></div>
+            <div class="contact-field"><label for="customerPhone">Teléfono para confirmar la reserva</label><input id="customerPhone" type="tel" inputmode="tel" placeholder="Ej. 11 5555 5555" autocomplete="tel" required></div>
+            <button class="reserve-button" id="reserveButton">Confirmar reserva <span>→</span></button>
+            <p class="reserve-note">No se realizará ningún cobro ahora.<br>Te confirmaremos la reserva por WhatsApp.</p>
+          </div>
+        </aside>
+      </div>
+
+      <section class="operations" id="operations">
+        <div class="operations-header">
+          <div>
+            <p class="eyebrow">Panel de gestión</p>
+            <h2 class="operations-title" id="operationsTitle">Operación de HD Padel</h2>
+            <p class="operations-subtitle" id="operationsSubtitle">Reservas, cobros y stock en un solo lugar.</p>
+          </div>
+          <div class="action-wrap"><button class="add-booking-icon" id="seedBooking" aria-label="Agregar reserva" title="Agregar reserva">+</button><form class="quick-booking" id="quickBooking"><div class="quick-booking-grid"><label><span class="field-label">Nombre</span><input id="quickName" required placeholder="Nombre del cliente" /></label><label><span class="field-label">Fecha</span><input id="quickDate" required type="date" /></label><label><span class="field-label">Cancha</span><select id="quickCourt"><option>1</option><option>2</option><option>3</option><option>4</option></select></label><label><span class="field-label">Hora</span><select id="quickTime"></select></label><label><span class="field-label">Estado</span><select id="quickPaid"><option value="false">Pendiente</option><option value="true">Pagado</option></select></label></div><button class="small-button" type="submit" style="margin-top:12px; width:100%;">Agregar reserva</button></form></div>
+        </div>
+        <div class="dashboard-grid" id="dashboardMetrics"></div>
+        <div class="owner-finance" id="ownerFinance">
+          <div class="finance-toolbar">
+            <div><h3 class="admin-panel-title">Resumen financiero</h3><p class="panel-subtitle">Elegí qué información querés analizar</p></div>
+            <div class="period-switcher"><button class="period-button active" data-metric="income">Ingresos</button><button class="period-button" data-metric="debt">Deudas</button><span style="border-left:1px solid var(--line); margin:2px 3px;"></span><button class="period-button active" data-period="week">Semana</button><button class="period-button" data-period="month">Mes</button><button class="period-button" data-period="year">Año</button></div>
+          </div>
+          <div class="charts-grid"><section class="chart-panel"><h3 class="chart-title" id="financeChartTitle">Ingresos</h3><p class="chart-subtitle" id="financeChartSubtitle">Reservas y ventas cobradas</p><div class="chart" id="financeChart"></div><div class="chart-legend"><span><i class="income-dot" id="financeChartDot"></i><span id="financeChartLegend">Ingresos cobrados</span></span></div></section></div>
+        </div>
+        <div class="admin-grid">
+          <section class="admin-panel" id="bookingsPanel">
+            <div class="admin-panel-header"><h3 class="admin-panel-title">Reservas del día</h3><span class="panel-subtitle">Editables por el encargado</span></div>
+            <div id="bookingTable"></div>
+          </section>
+          <div class="content-column">
+            <section class="admin-panel">
+              <div class="admin-panel-header"><h3 class="admin-panel-title">Inventario</h3><span class="panel-subtitle">Control interno</span></div>
+              <div class="stock-list" id="stockList"></div>
+            </section>
+            <section class="admin-panel" id="expensesPanel">
+              <div class="admin-panel-header"><h3 class="admin-panel-title">Cargar gasto</h3><span class="panel-subtitle">Solo dueño</span></div>
+              <form class="expense-form" id="expenseForm"><label><span class="field-label">Concepto</span><input id="expenseName" required placeholder="Luz, alquiler..." /></label><label><span class="field-label">Importe</span><input id="expenseAmount" required min="1" type="number" placeholder="$0" /></label><button class="small-button" type="submit">Guardar</button></form>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const money = value => `$${value.toLocaleString('es-AR')}`;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const maxBookingDate = new Date(today);
+    maxBookingDate.setDate(maxBookingDate.getDate() + 14);
+    const state = {
+      month: new Date(today.getFullYear(), today.getMonth(), 1),
+      date: null,
+      court: null,
+      time: null,
+      cart: {},
+      role: 'cliente',
+      expenses: [{ name: 'Mantenimiento de canchas', amount: 85000 }],
+      stock: { soda: 24, balls: 12, water: 30, grip: 18 },
+      bookings: [
+        { id: 1, name: 'Martín González', date: today.toISOString().slice(0, 10), court: 1, time: '19:00', paid: true, items: {} },
+        { id: 2, name: 'Lucía Fernández', date: new Date(today.getTime() + 86400000).toISOString().slice(0, 10), court: 3, time: '16:00', paid: false, items: {} }
+      ]
+    };
+    const products = [
+      { id: 'soda', name: 'Gaseosa fría', detail: 'Lata 354 ml', price: 1800, icon: '🥤', stockLabel: 'Gaseosas' },
+      { id: 'balls', name: 'Pelotitas', detail: 'Tubo x3 unidades', price: 7500, icon: '🎾', stockLabel: 'Pelotitas' },
+      { id: 'water', name: 'Agua mineral', detail: 'Botella 500 ml', price: 1200, icon: '💧', stockLabel: 'Agua' },
+      { id: 'grip', name: 'Overgrip', detail: 'Reemplazo premium', price: 3500, icon: '◒', stockLabel: 'Overgrips' }
+    ];
+    const times = Array.from({ length: 14 }, (_, index) => {
+      const hour = index + 9;
+      return { label: `${String(hour).padStart(2, '0')}:00`, price: hour >= 18 ? 16000 : 13000, light: hour >= 18 };
+    });
+    const monthFormatter = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' });
+    const dateFormatter = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+    function renderCalendar() {
+      const year = state.month.getFullYear();
+      const month = state.month.getMonth();
+      document.getElementById('monthLabel').textContent = monthFormatter.format(state.month).replace(/^./, char => char.toUpperCase());
+      const maxMonth = new Date(maxBookingDate.getFullYear(), maxBookingDate.getMonth(), 1);
+      document.getElementById('nextMonth').disabled = state.month >= maxMonth;
+      const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const previousDays = new Date(year, month, 0).getDate();
+      const calendar = document.getElementById('calendarDays');
+      calendar.innerHTML = '';
+      for (let index = 0; index < 42; index++) {
+        const dateNumber = index - firstDay + 1;
+        const dayButton = document.createElement('button');
+        dayButton.className = 'day';
+        let date;
+        if (dateNumber < 1) {
+          date = new Date(year, month - 1, previousDays + dateNumber);
+          dayButton.classList.add('muted');
+        } else if (dateNumber > daysInMonth) {
+          date = new Date(year, month + 1, dateNumber - daysInMonth);
+          dayButton.classList.add('muted');
+        } else {
+          date = new Date(year, month, dateNumber);
+        }
+        const dateKey = date.toISOString().slice(0, 10);
+        dayButton.textContent = date.getDate();
+        if (date.getTime() === today.getTime()) dayButton.classList.add('today');
+        if (state.date && dateKey === state.date.toISOString().slice(0, 10)) dayButton.classList.add('selected');
+        if (date < today || date > maxBookingDate) dayButton.disabled = true;
+        if (!dayButton.disabled && !dayButton.classList.contains('muted')) {
+          dayButton.addEventListener('click', () => { state.date = date; renderCalendar(); renderSummary(); });
+        }
+        calendar.appendChild(dayButton);
+      }
+    }
+
+    function renderCourts() {
+      const grid = document.getElementById('courtGrid');
+      grid.innerHTML = '';
+      for (let number = 1; number <= 4; number++) {
+        const card = document.createElement('button');
+        card.className = `court-card${state.court === number ? ' active' : ''}`;
+        card.innerHTML = `<div class="court-top"><span class="court-number">${number}</span><span class="status">Disponible</span></div><div class="court-name">Cancha ${number}</div><div class="court-info">Cristal panorámico</div>`;
+        card.addEventListener('click', () => { state.court = number; renderCourts(); renderSummary(); });
+        grid.appendChild(card);
+      }
+    }
+
+    function renderTimes() {
+      const grid = document.getElementById('timeGrid');
+      grid.innerHTML = '';
+      times.forEach(time => {
+        const button = document.createElement('button');
+        button.className = `time-button${state.time?.label === time.label ? ' selected' : ''}`;
+        button.innerHTML = `<span class="time">${time.label}</span><span class="time-price">${money(time.price)}</span>`;
+        button.addEventListener('click', () => { state.time = time; renderTimes(); renderSummary(); });
+        grid.appendChild(button);
+      });
+    }
+
+    function renderProducts() {
+      const wrapper = document.getElementById('products');
+      wrapper.innerHTML = '';
+      products.forEach(product => {
+        const quantity = state.cart[product.id] || 0;
+        const item = document.createElement('div');
+        item.className = 'product';
+        item.innerHTML = `<div class="product-visual">${product.icon}</div><div class="product-detail"><div class="product-name">${product.name}</div><div class="product-price">${money(product.price)} · ${product.detail}</div><div class="product-prompt">Solicitalo al encargado en la cancha</div></div>`;
+        wrapper.appendChild(item);
+      });
+    }
+
+    function updateCart(productId, change) {
+      const nextQuantity = (state.cart[productId] || 0) + change;
+      if (nextQuantity > state.stock[productId]) { showToast('No hay más unidades disponibles'); return; }
+      state.cart[productId] = Math.max(0, nextQuantity);
+      renderProducts();
+      renderSummary();
+    }
+
+    function renderSummary() {
+      const dateText = state.date ? dateFormatter.format(state.date).replace(/^./, char => char.toUpperCase()) : 'Elegí fecha y horario para continuar';
+      document.getElementById('selectedDateChip').textContent = state.date ? dateText : 'Seleccioná una fecha';
+      document.getElementById('summaryCourt').textContent = state.court ? `Cancha ${state.court}` : 'Elegí una cancha';
+      document.getElementById('summaryDate').textContent = state.date && state.time ? `${dateText} · ${state.time.label}` : dateText;
+      const bookingPrice = state.time?.price || 0;
+      const cartItems = products.filter(product => state.cart[product.id]);
+      const marketTotal = cartItems.reduce((sum, product) => sum + product.price * state.cart[product.id], 0);
+      const details = document.getElementById('summaryDetails');
+      if (!state.court && !state.time && !cartItems.length) {
+        details.innerHTML = '<p class="empty-selection">Completá los datos de tu partido y vas a ver el detalle acá.</p>';
+      } else {
+        details.innerHTML = '';
+        if (state.court) details.innerHTML += `<div class="summary-row"><span class="summary-item">Cancha ${state.court}<span class="summary-sub">1 hora de juego</span></span><span class="summary-value">${money(bookingPrice)}</span></div>`;
+        if (state.time) details.innerHTML += `<div class="summary-row"><span class="summary-item">${state.time.light ? 'Iluminación' : 'Horario diurno'}<span class="summary-sub">${state.time.light ? 'Desde las 18:00' : 'Hasta las 17:00'}</span></span><span class="summary-value">Incluida</span></div>`;
+        cartItems.forEach(product => { details.innerHTML += `<div class="summary-row"><span class="summary-item">${product.name}<span class="summary-sub">${state.cart[product.id]} unidad${state.cart[product.id] > 1 ? 'es' : ''}</span></span><span class="summary-value">${money(product.price * state.cart[product.id])}</span></div>`; });
+      }
+      document.getElementById('summaryTotal').textContent = money(bookingPrice + marketTotal);
+    }
+
+    function bookingTotal(booking) {
+      const time = times.find(item => item.label === booking.time);
+      return (time?.price || 0) + Object.entries(booking.items || {}).reduce((total, [id, quantity]) => total + (products.find(product => product.id === id)?.price || 0) * quantity, 0);
+    }
+
+    function ensurePayers(booking) {
+      if (!booking.payers?.length) booking.payers = [{ name: booking.name, paid: booking.paid }];
+      return booking.payers;
+    }
+
+    function syncPaymentStatus(booking) {
+      const payers = ensurePayers(booking);
+      booking.paid = payers.every(payer => payer.paid);
+    }
+
+    function bookingPaidAmount(booking) {
+      const payers = ensurePayers(booking);
+      return Math.round(bookingTotal(booking) / payers.length * payers.filter(payer => payer.paid).length);
+    }
+
+    function paymentLabel(booking) {
+      return booking.paid ? 'Pagado' : 'No pagado';
+    }
+
+    function renderOperations() {
+      const isOwner = state.role === 'dueno';
+      const isBackoffice = state.role !== 'cliente';
+      const todayKey = today.toISOString().slice(0, 10);
+      const revenue = state.bookings.reduce((total, booking) => total + bookingPaidAmount(booking), 0);
+      const expenses = state.expenses.reduce((total, expense) => total + expense.amount, 0);
+      const stockUnits = Object.values(state.stock).reduce((total, count) => total + count, 0);
+      document.querySelector('.layout').style.display = isBackoffice ? 'none' : '';
+      document.querySelector('.welcome').style.display = isBackoffice ? 'none' : '';
+      document.getElementById('seedBooking').style.display = isOwner ? 'none' : '';
+      document.getElementById('ownerFinance').classList.toggle('visible', isOwner);
+      document.getElementById('bookingsPanel').style.display = isOwner ? 'none' : '';
+      const metrics = isOwner ? [
+        ['Ingresos cobrados', money(revenue), 'Reservas pagadas'],
+        ['Pendiente de cobro', money(state.bookings.reduce((total, booking) => total + bookingTotal(booking) - bookingPaidAmount(booking), 0)), 'Deudas abiertas'],
+        ['Gastos cargados', money(expenses), `${state.expenses.length} conceptos`],
+        ['Ganancia neta', money(revenue - expenses), 'Ingresos - gastos']
+      ] : [
+        ['Reservas de hoy', state.bookings.filter(booking => booking.date === todayKey).length, 'Agenda del día'],
+        ['Por cobrar', money(state.bookings.reduce((total, booking) => total + bookingTotal(booking) - bookingPaidAmount(booking), 0)), 'Pagos pendientes'],
+        ['Cobrado hoy', money(state.bookings.filter(booking => booking.date === todayKey).reduce((total, booking) => total + bookingPaidAmount(booking), 0)), 'Ingresos registrados'],
+        ['Cancha ocupada', `${state.bookings.filter(booking => booking.date === todayKey).length}/4`, 'Turnos registrados']
+      ];
+      document.getElementById('dashboardMetrics').innerHTML = metrics.map(metric => `<div class="metric"><div class="metric-label">${metric[0]}</div><div class="metric-value">${metric[1]}</div><div class="metric-note">${metric[2]}</div></div>`).join('');
+      document.getElementById('operationsTitle').textContent = isOwner ? 'Números del negocio' : 'Agenda y operación';
+      document.getElementById('operationsSubtitle').textContent = isOwner ? 'Ingresos, deudas, gastos y stock para tomar decisiones.' : 'Editá reservas, cobros y ventas del turno.';
+      document.getElementById('expensesPanel').style.display = isOwner ? '' : 'none';
+      if (!isOwner) renderBookingTable();
+      renderStock();
+      if (isOwner) renderOwnerFinance();
+    }
+
+    function refreshPaymentMetrics() {
+      const values = state.role === 'dueno' ? [
+        state.bookings.reduce((total, booking) => total + bookingPaidAmount(booking), 0),
+        state.bookings.reduce((total, booking) => total + bookingTotal(booking) - bookingPaidAmount(booking), 0)
+      ] : [
+        state.bookings.reduce((total, booking) => total + bookingTotal(booking) - bookingPaidAmount(booking), 0),
+        state.bookings.filter(booking => booking.date === today.toISOString().slice(0, 10)).reduce((total, booking) => total + bookingPaidAmount(booking), 0)
+      ];
+      const metricValues = document.querySelectorAll('#dashboardMetrics .metric-value');
+      if (state.role === 'dueno') { metricValues[0].textContent = money(values[0]); metricValues[1].textContent = money(values[1]); }
+      if (state.role === 'encargado') { metricValues[1].textContent = money(values[0]); metricValues[2].textContent = money(values[1]); }
+    }
+
+    function renderOwnerFinance() {
+      const period = state.financePeriod || 'week';
+      const metric = state.financeMetric || 'income';
+      const now = new Date(today);
+      const groups = period === 'week' ? Array.from({ length: 7 }, (_, index) => {
+        const date = new Date(now); date.setDate(now.getDate() - (6 - index));
+        return { label: date.toLocaleDateString('es-AR', { weekday: 'short' }).replace('.', ''), key: date.toISOString().slice(0, 10), paid: 0, pending: 0 };
+      }) : period === 'month' ? Array.from({ length: 4 }, (_, index) => ({ label: `Sem ${index + 1}`, key: index, paid: 0, pending: 0 })) : Array.from({ length: 12 }, (_, index) => ({ label: new Intl.DateTimeFormat('es-AR', { month: 'short' }).format(new Date(now.getFullYear(), index, 1)).replace('.', ''), key: index, paid: 0, pending: 0 }));
+      state.bookings.forEach(booking => {
+        const bookingDate = new Date(`${booking.date}T12:00:00`);
+        let group;
+        if (period === 'week') group = groups.find(item => item.key === booking.date);
+        if (period === 'month' && bookingDate.getFullYear() === now.getFullYear() && bookingDate.getMonth() === now.getMonth()) group = groups[Math.min(3, Math.floor((bookingDate.getDate() - 1) / 7))];
+        if (period === 'year' && bookingDate.getFullYear() === now.getFullYear()) group = groups[bookingDate.getMonth()];
+        if (group) { group.paid += bookingPaidAmount(booking); group.pending += bookingTotal(booking) - bookingPaidAmount(booking); }
+      });
+      const values = groups.map(group => metric === 'income' ? group.paid : group.pending);
+      const maxValue = Math.max(1, ...values);
+      document.getElementById('financeChart').innerHTML = groups.map((group, index) => `<div class="chart-column"><span class="chart-value">${values[index] ? money(values[index]) : ''}</span><div class="chart-bar${metric === 'debt' ? ' debt' : ''}" style="height:${Math.max(3, values[index] / maxValue * 110)}px"></div><span class="chart-label">${group.label}</span></div>`).join('');
+      document.getElementById('financeChartTitle').textContent = metric === 'income' ? 'Ingresos' : 'Deudas';
+      document.getElementById('financeChartSubtitle').textContent = metric === 'income' ? 'Reservas y ventas cobradas' : 'Reservas todavía pendientes de pago';
+      document.getElementById('financeChartLegend').textContent = metric === 'income' ? 'Ingresos cobrados' : 'Deudas pendientes';
+      document.getElementById('financeChartDot').className = metric === 'income' ? 'income-dot' : 'debt-dot';
+      document.querySelectorAll('.period-button[data-period]').forEach(button => button.classList.toggle('active', button.dataset.period === period));
+      document.querySelectorAll('.period-button[data-metric]').forEach(button => button.classList.toggle('active', button.dataset.metric === metric));
+    }
+
+    function renderBookingTable() {
+      const rows = state.bookings.map(booking => `<tr data-booking-id="${booking.id}">
+        <td><input class="booking-name" value="${booking.name}" aria-label="Nombre del cliente"></td>
+        <td><input class="booking-date" type="date" value="${booking.date}" aria-label="Fecha"></td>
+        <td><select class="booking-court" aria-label="Cancha">${[1, 2, 3, 4].map(number => `<option ${booking.court === number ? 'selected' : ''}>${number}</option>`).join('')}</select></td>
+        <td><select class="booking-time" aria-label="Horario">${times.map(time => `<option ${booking.time === time.label ? 'selected' : ''}>${time.label}</option>`).join('')}</select></td>
+        <td><button class="payment-toggle ${paymentLabel(booking) === 'Pagado' ? 'paid' : 'pending'}">${paymentLabel(booking)}</button></td>
+        <td><select class="booking-product" aria-label="Producto"><option value="">+ producto</option>${products.map(product => `<option value="${product.id}">${product.name}</option>`).join('')}</select></td>
+        <td><button class="detail-button" type="button">Detalle</button></td>
+      </tr><tr class="booking-detail-row" data-detail-id="${booking.id}" hidden><td colspan="7"><div class="booking-detail"></div></td></tr>`).join('');
+      document.getElementById('bookingTable').innerHTML = state.bookings.length ? `<table class="admin-table"><thead><tr><th>Cliente</th><th>Fecha</th><th>Cancha</th><th>Hora</th><th>Cobro</th><th>Venta</th><th></th></tr></thead><tbody>${rows}</tbody></table>` : '<div class="empty-table">Todavía no hay reservas cargadas.</div>';
+      document.querySelectorAll('#bookingTable tr[data-booking-id]').forEach(row => {
+        const booking = state.bookings.find(item => item.id === Number(row.dataset.bookingId));
+        row.querySelector('.booking-name').addEventListener('change', event => { booking.name = event.target.value || 'Cliente sin nombre'; });
+        row.querySelector('.booking-name').addEventListener('change', () => { ensurePayers(booking)[0].name = booking.name; });
+        row.querySelector('.booking-date').addEventListener('change', event => { booking.date = event.target.value; renderOperations(); });
+        row.querySelector('.booking-court').addEventListener('change', event => { booking.court = Number(event.target.value); });
+        row.querySelector('.booking-time').addEventListener('change', event => { booking.time = event.target.value; renderOperations(); });
+        row.querySelector('.payment-toggle').addEventListener('click', () => { ensurePayers(booking).forEach(payer => payer.paid = !booking.paid); syncPaymentStatus(booking); renderOperations(); });
+        row.querySelector('.booking-product').addEventListener('change', event => { sellToBooking(booking, event.target.value); });
+        row.querySelector('.detail-button').addEventListener('click', event => { const detailRow = document.querySelector(`tr[data-detail-id="${booking.id}"]`); detailRow.hidden = !detailRow.hidden; if (!detailRow.hidden) renderBookingDetail(booking, detailRow.querySelector('.booking-detail')); event.target.textContent = detailRow.hidden ? 'Detalle' : 'Cerrar'; });
+      });
+    }
+
+    function renderBookingDetail(booking, container) {
+      const payers = ensurePayers(booking);
+      const itemRows = Object.entries(booking.items || {}).map(([productId, quantity]) => {
+        const product = products.find(item => item.id === productId);
+        const consumed = booking.consumed?.[productId] || false;
+        return `<label class="check-item"><input type="checkbox" data-consumed="${productId}" ${consumed ? 'checked' : ''}><span>${product.icon}</span><label>${product.name} x${quantity}</label><span>${money(product.price * quantity)}</span></label>`;
+      }).join('');
+      const payerRows = payers.map((payer, index) => `<label class="payer-item"><input type="checkbox" data-payer="${index}" ${payer.paid ? 'checked' : ''}><label><input class="payer-name" data-payer-name="${index}" value="${payer.name || `Persona ${index + 1}`}" aria-label="Nombre del pagador"></label><span>${money(bookingTotal(booking) / payers.length)}</span></label>`).join('');
+      container.innerHTML = `<div><h4 class="detail-heading">Consumos de ${booking.name}</h4><div class="check-list">${itemRows || '<span class="panel-subtitle">Todavía no hay productos cargados.</span>'}</div><p class="detail-total">Total de la reserva: ${money(bookingTotal(booking))}</p></div><div><div class="split-control"><h4 class="detail-heading" style="margin:0;">Pago dividido</h4><select id="split-${booking.id}" aria-label="Cantidad de personas">${[1, 2, 3, 4].map(number => `<option value="${number}" ${payers.length === number ? 'selected' : ''}>${number} persona${number > 1 ? 's' : ''}</option>`).join('')}</select></div><div class="payer-list">${payerRows}</div></div>`;
+      container.querySelectorAll('[data-consumed]').forEach(input => input.addEventListener('change', event => { booking.consumed = booking.consumed || {}; booking.consumed[event.target.dataset.consumed] = event.target.checked; }));
+      container.querySelector(`#split-${booking.id}`).addEventListener('change', event => { const count = Number(event.target.value); booking.payers = Array.from({ length: count }, (_, index) => payers[index] || { name: `Persona ${index + 1}`, paid: false }); renderBookingDetail(booking, container); });
+      container.querySelectorAll('[data-payer]').forEach(input => input.addEventListener('change', event => { payers[Number(event.target.dataset.payer)].paid = event.target.checked; syncPaymentStatus(booking); const paymentButton = document.querySelector(`tr[data-booking-id="${booking.id}"] .payment-toggle`); paymentButton.textContent = paymentLabel(booking); paymentButton.className = `payment-toggle ${paymentLabel(booking) === 'Pagado' ? 'paid' : 'pending'}`; refreshPaymentMetrics(); }));
+      container.querySelectorAll('[data-payer-name]').forEach(input => input.addEventListener('change', event => { payers[Number(event.target.dataset.payerName)].name = event.target.value; }));
+    }
+
+    function sellToBooking(booking, productId) {
+      if (!productId) return;
+      if (state.stock[productId] < 1) { showToast('No hay stock de ese producto'); renderOperations(); return; }
+      state.stock[productId] -= 1;
+      booking.items[productId] = (booking.items[productId] || 0) + 1;
+      showToast(`${products.find(product => product.id === productId).name} agregado a ${booking.name}`);
+      renderOperations();
+      const detailRow = document.querySelector(`tr[data-detail-id="${booking.id}"]`);
+      if (detailRow) {
+        detailRow.hidden = false;
+        renderBookingDetail(booking, detailRow.querySelector('.booking-detail'));
+        document.querySelector(`tr[data-booking-id="${booking.id}"] .detail-button`).textContent = 'Cerrar';
+      }
+    }
+
+    function renderStock() {
+      document.getElementById('stockList').innerHTML = products.map(product => {
+        const count = state.stock[product.id];
+        const percentage = Math.min(100, count / 30 * 100);
+        return `<div class="stock-row"><div class="stock-icon">${product.icon}</div><div class="stock-info"><div class="stock-name">${product.stockLabel}</div><div class="stock-bar"><div class="stock-fill" style="width:${percentage}%"></div></div></div><div class="stock-count">${count}</div></div>`;
+      }).join('');
+    }
+
+    function addBookingFromSelection() {
+      if (!state.date || !state.court || !state.time) { showToast('Completá fecha, cancha y horario primero'); return; }
+      state.bookings.push({ id: Date.now(), name: 'Nuevo cliente', date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} });
+      showToast('Reserva cargada en la agenda');
+      renderOperations();
+    }
+
+    function setRole(role) {
+      state.role = role;
+      document.querySelectorAll('.role-button').forEach(button => button.classList.toggle('active', button.dataset.role === role));
+      const operations = document.getElementById('operations');
+      operations.classList.toggle('visible', role !== 'cliente');
+      renderOperations();
+    }
+
+    document.getElementById('prevMonth').addEventListener('click', () => { const previous = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1); if (previous >= new Date(today.getFullYear(), today.getMonth(), 1)) { state.month = previous; renderCalendar(); } });
+    document.getElementById('nextMonth').addEventListener('click', () => { const nextMonth = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1); const maxMonth = new Date(maxBookingDate.getFullYear(), maxBookingDate.getMonth(), 1); if (nextMonth <= maxMonth) { state.month = nextMonth; renderCalendar(); } });
+    document.getElementById('reserveButton').addEventListener('click', () => {
+      if (!state.date || !state.court || !state.time) { showToast('Elegí fecha, cancha y horario para confirmar'); return; }
+      const phoneInput = document.getElementById('customerPhone');
+      const phone = phoneInput.value.trim();
+      const phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length < 8 || phoneDigits.length > 15) { phoneInput.focus(); showToast('Ingresá un teléfono válido para confirmar'); return; }
+      state.bookings.push({ id: Date.now(), name: 'Reserva online', phone, date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} });
+      Object.entries(state.cart).forEach(([productId, quantity]) => { state.stock[productId] -= quantity; });
+      renderProducts();
+      renderOperations();
+      showToast(`Reserva registrada. Te confirmaremos al ${phone}`);
+    });
+    document.querySelectorAll('.role-button').forEach(button => button.addEventListener('click', () => setRole(button.dataset.role)));
+    document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
+    document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
+    document.getElementById('quickDate').value = today.toISOString().slice(0, 10);
+    document.getElementById('quickTime').innerHTML = times.map(time => `<option>${time.label}</option>`).join('');
+    document.getElementById('seedBooking').addEventListener('click', () => document.getElementById('quickBooking').classList.toggle('visible'));
+    document.getElementById('quickBooking').addEventListener('submit', event => {
+      event.preventDefault();
+      state.bookings.push({ id: Date.now(), name: document.getElementById('quickName').value.trim(), date: document.getElementById('quickDate').value, court: Number(document.getElementById('quickCourt').value), time: document.getElementById('quickTime').value, paid: document.getElementById('quickPaid').value === 'true', items: {} });
+      event.target.reset();
+      document.getElementById('quickDate').value = today.toISOString().slice(0, 10);
+      document.getElementById('quickBooking').classList.remove('visible');
+      renderOperations();
+      showToast('Reserva de WhatsApp agregada');
+    });
+    document.getElementById('expenseForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const name = document.getElementById('expenseName').value.trim();
+      const amount = Number(document.getElementById('expenseAmount').value);
+      if (!name || !amount) return;
+      state.expenses.push({ name, amount });
+      event.target.reset();
+      renderOperations();
+      showToast('Gasto agregado al balance');
+    });
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    renderCalendar();
+    renderCourts();
+    renderTimes();
+    renderProducts();
+    renderSummary();
+    renderOperations();
+  </script>
+</body>
+</html>
