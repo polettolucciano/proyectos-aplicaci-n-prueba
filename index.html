@@ -205,18 +205,35 @@
     .payment-toggle { border: 0; border-radius: 50px; font-size: 10px; font-weight: 700; padding: 7px 10px; }
     .payment-toggle.paid { background: #e2f6ef; color: var(--green); }
     .payment-toggle.pending { background: #fff0e6; color: #bb5e25; }
+    .payment-toggle.playing { background: #fff2cf; color: #9a6810; }
     .detail-button { background: var(--blue-pale); border: 0; border-radius: 7px; color: var(--blue-deep); font-size: 10px; font-weight: 700; padding: 7px 9px; }
     .booking-detail-row td { background: #f8fbff; padding: 0 15px 17px; }
     .booking-detail { border-top: 1px dashed var(--line); display: grid; gap: 18px; grid-template-columns: 1fr 1fr; padding-top: 16px; }
     .detail-heading { font-size: 11px; font-weight: 700; margin: 0 0 10px; }
     .check-list, .payer-list { display: grid; gap: 7px; }
     .check-item, .payer-item { align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 7px; display: flex; gap: 8px; padding: 8px; }
+    .extra-line { align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); display: flex; font-size: 11px; justify-content: space-between; padding: 9px; }
     .check-item input, .payer-item input[type="checkbox"] { accent-color: var(--blue); }
     .check-item label, .payer-item label { flex: 1; font-size: 11px; }
     .check-item span, .payer-item span { color: var(--muted); font-size: 10px; }
     .split-control { align-items: center; display: flex; gap: 8px; margin-bottom: 8px; }
     .split-control select { background: var(--ice); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; padding: 6px; }
     .detail-total { color: var(--muted); font-size: 10px; margin: 8px 0 0; }
+    .detail-total strong { color: var(--ink); display: block; font-family: "Space Grotesk", sans-serif; font-size: 28px; letter-spacing: -.6px; margin-top: 4px; }
+    .usage-panel { background: var(--white); border: 1px solid var(--line); border-radius: 16px; margin-top: 24px; padding: 21px; }
+    .usage-toolbar { align-items: center; display: flex; justify-content: space-between; margin-bottom: 15px; }
+    .usage-title { font-family: "Space Grotesk", sans-serif; font-size: 16px; margin: 0 0 3px; }
+    .usage-total { color: var(--blue-deep); font-family: "Space Grotesk", sans-serif; font-size: 30px; }
+    .login-modal { align-items: center; background: rgba(16, 37, 63, .55); display: none; inset: 0; justify-content: center; padding: 20px; position: fixed; z-index: 10; }
+    .login-modal.visible { display: flex; }
+    .login-card { background: var(--white); border-radius: 16px; box-shadow: 0 25px 70px rgba(16, 37, 63, .25); max-width: 390px; padding: 26px; width: 100%; }
+    .login-card h2 { font-family: "Space Grotesk", sans-serif; margin: 0 0 6px; }
+    .login-card p { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
+    .login-field { display: block; margin-bottom: 13px; }
+    .login-field span { color: var(--muted); display: block; font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+    .login-field input { border: 1px solid var(--line); border-radius: 7px; padding: 10px; width: 100%; }
+    .login-actions { display: flex; gap: 9px; justify-content: end; margin-top: 18px; }
+    .login-cancel { background: var(--ice); border: 1px solid var(--line); border-radius: 8px; padding: 9px 13px; }
     .stock-list { padding: 5px 21px 17px; }
     .stock-row { align-items: center; border-bottom: 1px solid var(--line); display: flex; gap: 10px; padding: 13px 0; }
     .stock-row:last-child { border-bottom: 0; }
@@ -306,7 +323,7 @@
         <div class="brand-name">hd <span>padel</span></div>
       </div>
       <div class="topbar-right">
-        <div class="location">Buenos Aires, Argentina</div>
+        <div class="location">Resistencia, Chaco · RN 16 km 9.9</div>
         <div class="role-switcher" aria-label="Cambiar vista">
           <button class="role-button active" data-role="cliente">Cliente</button>
           <button class="role-button" data-role="encargado">Encargado</button>
@@ -351,7 +368,7 @@
             <div class="panel-header">
               <div>
                 <h2 class="panel-title">Elegí tu cancha</h2>
-                <p class="panel-subtitle">Todas cuentan con césped sintético premium</p>
+                <p class="panel-subtitle">Canchas 100% profesionales techadas · RN 16 km 9.9</p>
               </div>
             </div>
             <div class="court-grid" id="courtGrid"></div>
@@ -417,6 +434,7 @@
             <div class="period-switcher"><button class="period-button active" data-metric="income">Ingresos</button><button class="period-button" data-metric="debt">Deudas</button><span style="border-left:1px solid var(--line); margin:2px 3px;"></span><button class="period-button active" data-period="week">Semana</button><button class="period-button" data-period="month">Mes</button><button class="period-button" data-period="year">Año</button></div>
           </div>
           <div class="charts-grid"><section class="chart-panel"><h3 class="chart-title" id="financeChartTitle">Ingresos</h3><p class="chart-subtitle" id="financeChartSubtitle">Reservas y ventas cobradas</p><div class="chart" id="financeChart"></div><div class="chart-legend"><span><i class="income-dot" id="financeChartDot"></i><span id="financeChartLegend">Ingresos cobrados</span></span></div></section></div>
+          <section class="usage-panel"><div class="usage-toolbar"><div><h3 class="usage-title">Uso de canchas</h3><p class="panel-subtitle">Horas utilizadas en reservas registradas</p></div><div class="period-switcher"><button class="period-button active" data-usage-period="day">Día</button><button class="period-button" data-usage-period="week">Semana</button><button class="period-button" data-usage-period="month">Mes</button></div></div><div class="usage-total" id="usageTotal">0 horas</div></section>
         </div>
         <div class="admin-grid">
           <section class="admin-panel" id="bookingsPanel">
@@ -438,6 +456,15 @@
     </main>
   </div>
   <div class="toast" id="toast"></div>
+  <div class="login-modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <form class="login-card" id="loginForm">
+      <h2 id="loginTitle">Acceso de Encargado</h2>
+      <p>Ingresá tus credenciales para abrir el panel de operación.</p>
+      <label class="login-field"><span>Usuario</span><input id="loginUser" required autocomplete="username" /></label>
+      <label class="login-field"><span>Contraseña</span><input id="loginPassword" required type="password" autocomplete="current-password" /></label>
+      <div class="login-actions"><button class="login-cancel" type="button" id="loginCancel">Cancelar</button><button class="small-button" type="submit">Ingresar</button></div>
+    </form>
+  </div>
 
   <script>
     const money = value => `$${value.toLocaleString('es-AR')}`;
@@ -452,6 +479,9 @@
       time: null,
       cart: {},
       role: 'cliente',
+      encargadoAuthenticated: false,
+      pendingRole: null,
+      usagePeriod: 'day',
       expenses: [{ name: 'Mantenimiento de canchas', amount: 85000 }],
       stock: { soda: 24, balls: 12, water: 30, grip: 18 },
       bookings: [
@@ -583,9 +613,15 @@
       return booking.payers;
     }
 
+    function isPlayingNow(booking) {
+      return booking.date === today.toISOString().slice(0, 10) && Number(booking.time.slice(0, 2)) === new Date().getHours();
+    }
+
     function syncPaymentStatus(booking) {
       const payers = ensurePayers(booking);
       booking.paid = payers.every(payer => payer.paid);
+      if (booking.paid) booking.status = 'paid';
+      else if (isPlayingNow(booking)) booking.status = 'por-cobrar';
     }
 
     function bookingPaidAmount(booking) {
@@ -594,13 +630,19 @@
     }
 
     function paymentLabel(booking) {
+      if (booking.status === 'por-cobrar') return 'Por cobrar';
       return booking.paid ? 'Pagado' : 'No pagado';
+    }
+
+    function paymentClass(booking) {
+      return paymentLabel(booking) === 'Pagado' ? 'paid' : paymentLabel(booking) === 'Por cobrar' ? 'playing' : 'pending';
     }
 
     function renderOperations() {
       const isOwner = state.role === 'dueno';
       const isBackoffice = state.role !== 'cliente';
       const todayKey = today.toISOString().slice(0, 10);
+      const todayRevenue = state.bookings.filter(booking => booking.date === todayKey).reduce((total, booking) => total + bookingPaidAmount(booking), 0);
       const revenue = state.bookings.reduce((total, booking) => total + bookingPaidAmount(booking), 0);
       const expenses = state.expenses.reduce((total, expense) => total + expense.amount, 0);
       const stockUnits = Object.values(state.stock).reduce((total, count) => total + count, 0);
@@ -610,7 +652,7 @@
       document.getElementById('ownerFinance').classList.toggle('visible', isOwner);
       document.getElementById('bookingsPanel').style.display = isOwner ? 'none' : '';
       const metrics = isOwner ? [
-        ['Ingresos cobrados', money(revenue), 'Reservas pagadas'],
+        ['Ganancias de hoy', money(todayRevenue), 'Cobros registrados hoy'],
         ['Pendiente de cobro', money(state.bookings.reduce((total, booking) => total + bookingTotal(booking) - bookingPaidAmount(booking), 0)), 'Deudas abiertas'],
         ['Gastos cargados', money(expenses), `${state.expenses.length} conceptos`],
         ['Ganancia neta', money(revenue - expenses), 'Ingresos - gastos']
@@ -622,7 +664,7 @@
       ];
       document.getElementById('dashboardMetrics').innerHTML = metrics.map(metric => `<div class="metric"><div class="metric-label">${metric[0]}</div><div class="metric-value">${metric[1]}</div><div class="metric-note">${metric[2]}</div></div>`).join('');
       document.getElementById('operationsTitle').textContent = isOwner ? 'Números del negocio' : 'Agenda y operación';
-      document.getElementById('operationsSubtitle').textContent = isOwner ? 'Ingresos, deudas, gastos y stock para tomar decisiones.' : 'Editá reservas, cobros y ventas del turno.';
+      document.getElementById('operationsSubtitle').textContent = isOwner ? 'Ganancias, deudas, gastos y stock para tomar decisiones.' : 'Editá reservas, cobros y ventas del turno.';
       document.getElementById('expensesPanel').style.display = isOwner ? '' : 'none';
       if (!isOwner) renderBookingTable();
       renderStock();
@@ -667,6 +709,20 @@
       document.getElementById('financeChartDot').className = metric === 'income' ? 'income-dot' : 'debt-dot';
       document.querySelectorAll('.period-button[data-period]').forEach(button => button.classList.toggle('active', button.dataset.period === period));
       document.querySelectorAll('.period-button[data-metric]').forEach(button => button.classList.toggle('active', button.dataset.metric === metric));
+      renderOwnerUsage();
+    }
+
+    function renderOwnerUsage() {
+      const period = state.usagePeriod || 'day';
+      const now = new Date(today);
+      const hours = state.bookings.filter(booking => {
+        const bookingDate = new Date(`${booking.date}T12:00:00`);
+        if (period === 'day') return booking.date === today.toISOString().slice(0, 10);
+        if (period === 'week') { const start = new Date(now); start.setDate(now.getDate() - 6); const end = new Date(now); end.setDate(now.getDate() + 1); return bookingDate >= start && bookingDate < end; }
+        return bookingDate.getFullYear() === now.getFullYear() && bookingDate.getMonth() === now.getMonth();
+      }).length;
+      document.getElementById('usageTotal').textContent = `${hours} hora${hours === 1 ? '' : 's'}`;
+      document.querySelectorAll('[data-usage-period]').forEach(button => button.classList.toggle('active', button.dataset.usagePeriod === period));
     }
 
     function renderBookingTable() {
@@ -675,7 +731,7 @@
         <td><input class="booking-date" type="date" value="${booking.date}" aria-label="Fecha"></td>
         <td><select class="booking-court" aria-label="Cancha">${[1, 2, 3, 4].map(number => `<option ${booking.court === number ? 'selected' : ''}>${number}</option>`).join('')}</select></td>
         <td><select class="booking-time" aria-label="Horario">${times.map(time => `<option ${booking.time === time.label ? 'selected' : ''}>${time.label}</option>`).join('')}</select></td>
-        <td><button class="payment-toggle ${paymentLabel(booking) === 'Pagado' ? 'paid' : 'pending'}">${paymentLabel(booking)}</button></td>
+        <td><button class="payment-toggle ${paymentClass(booking)}">${paymentLabel(booking)}</button></td>
         <td><select class="booking-product" aria-label="Producto"><option value="">+ producto</option>${products.map(product => `<option value="${product.id}">${product.name}</option>`).join('')}</select></td>
         <td><button class="detail-button" type="button">Detalle</button></td>
       </tr><tr class="booking-detail-row" data-detail-id="${booking.id}" hidden><td colspan="7"><div class="booking-detail"></div></td></tr>`).join('');
@@ -698,13 +754,13 @@
       const itemRows = Object.entries(booking.items || {}).map(([productId, quantity]) => {
         const product = products.find(item => item.id === productId);
         const consumed = booking.consumed?.[productId] || false;
-        return `<label class="check-item"><input type="checkbox" data-consumed="${productId}" ${consumed ? 'checked' : ''}><span>${product.icon}</span><label>${product.name} x${quantity}</label><span>${money(product.price * quantity)}</span></label>`;
+        return `<div class="extra-line"><span>${product.icon} ${product.name} x${quantity} · Cancha ${booking.court}</span><strong>${money(product.price * quantity)}</strong></div>`;
       }).join('');
-      const payerRows = payers.map((payer, index) => `<label class="payer-item"><input type="checkbox" data-payer="${index}" ${payer.paid ? 'checked' : ''}><label><input class="payer-name" data-payer-name="${index}" value="${payer.name || `Persona ${index + 1}`}" aria-label="Nombre del pagador"></label><span>${money(bookingTotal(booking) / payers.length)}</span></label>`).join('');
-      container.innerHTML = `<div><h4 class="detail-heading">Consumos de ${booking.name}</h4><div class="check-list">${itemRows || '<span class="panel-subtitle">Todavía no hay productos cargados.</span>'}</div><p class="detail-total">Total de la reserva: ${money(bookingTotal(booking))}</p></div><div><div class="split-control"><h4 class="detail-heading" style="margin:0;">Pago dividido</h4><select id="split-${booking.id}" aria-label="Cantidad de personas">${[1, 2, 3, 4].map(number => `<option value="${number}" ${payers.length === number ? 'selected' : ''}>${number} persona${number > 1 ? 's' : ''}</option>`).join('')}</select></div><div class="payer-list">${payerRows}</div></div>`;
-      container.querySelectorAll('[data-consumed]').forEach(input => input.addEventListener('change', event => { booking.consumed = booking.consumed || {}; booking.consumed[event.target.dataset.consumed] = event.target.checked; }));
+      const payerShare = bookingTotal(booking) / payers.length;
+      const payerRows = payers.map((payer, index) => `<label class="payer-item"><input type="checkbox" data-payer="${index}" ${payer.paid ? 'checked' : ''}><label><input class="payer-name" data-payer-name="${index}" value="${payer.name || `Persona ${index + 1}`}" aria-label="Nombre del pagador"></label><strong>${money(payerShare)}</strong></label>`).join('');
+      container.innerHTML = `<div><h4 class="detail-heading">Extras de ${booking.name}</h4><div class="check-list">${itemRows || '<span class="panel-subtitle">Todavía no hay productos cargados.</span>'}</div><p class="detail-total">Total de la reserva:<strong>${money(bookingTotal(booking))}</strong></p></div><div><div class="split-control"><h4 class="detail-heading" style="margin:0;">Pago dividido</h4><select id="split-${booking.id}" aria-label="Cantidad de personas">${[1, 2, 3, 4].map(number => `<option value="${number}" ${payers.length === number ? 'selected' : ''}>${number} persona${number > 1 ? 's' : ''}</option>`).join('')}</select></div><p class="panel-subtitle">Cada jugador debe abonar ${money(payerShare)}</p><div class="payer-list">${payerRows}</div></div>`;
       container.querySelector(`#split-${booking.id}`).addEventListener('change', event => { const count = Number(event.target.value); booking.payers = Array.from({ length: count }, (_, index) => payers[index] || { name: `Persona ${index + 1}`, paid: false }); renderBookingDetail(booking, container); });
-      container.querySelectorAll('[data-payer]').forEach(input => input.addEventListener('change', event => { payers[Number(event.target.dataset.payer)].paid = event.target.checked; syncPaymentStatus(booking); const paymentButton = document.querySelector(`tr[data-booking-id="${booking.id}"] .payment-toggle`); paymentButton.textContent = paymentLabel(booking); paymentButton.className = `payment-toggle ${paymentLabel(booking) === 'Pagado' ? 'paid' : 'pending'}`; refreshPaymentMetrics(); }));
+      container.querySelectorAll('[data-payer]').forEach(input => input.addEventListener('change', event => { payers[Number(event.target.dataset.payer)].paid = event.target.checked; syncPaymentStatus(booking); const paymentButton = document.querySelector(`tr[data-booking-id="${booking.id}"] .payment-toggle`); paymentButton.textContent = paymentLabel(booking); paymentButton.className = `payment-toggle ${paymentClass(booking)}`; refreshPaymentMetrics(); }));
       container.querySelectorAll('[data-payer-name]').forEach(input => input.addEventListener('change', event => { payers[Number(event.target.dataset.payerName)].name = event.target.value; }));
     }
 
@@ -733,12 +789,20 @@
 
     function addBookingFromSelection() {
       if (!state.date || !state.court || !state.time) { showToast('Completá fecha, cancha y horario primero'); return; }
-      state.bookings.push({ id: Date.now(), name: 'Nuevo cliente', date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} });
+      const newBooking = { id: Date.now(), name: 'Nuevo cliente', date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} };
+      newBooking.status = isPlayingNow(newBooking) ? 'por-cobrar' : 'pending';
+      state.bookings.push(newBooking);
       showToast('Reserva cargada en la agenda');
       renderOperations();
     }
 
     function setRole(role) {
+      if (role === 'encargado' && !state.encargadoAuthenticated) {
+        state.pendingRole = role;
+        document.getElementById('loginModal').classList.add('visible');
+        document.getElementById('loginUser').focus();
+        return;
+      }
       state.role = role;
       document.querySelectorAll('.role-button').forEach(button => button.classList.toggle('active', button.dataset.role === role));
       const operations = document.getElementById('operations');
@@ -754,7 +818,9 @@
       const phone = phoneInput.value.trim();
       const phoneDigits = phone.replace(/\D/g, '');
       if (phoneDigits.length < 8 || phoneDigits.length > 15) { phoneInput.focus(); showToast('Ingresá un teléfono válido para confirmar'); return; }
-      state.bookings.push({ id: Date.now(), name: 'Reserva online', phone, date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} });
+      const onlineBooking = { id: Date.now(), name: 'Reserva online', phone, date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} };
+      onlineBooking.status = isPlayingNow(onlineBooking) ? 'por-cobrar' : 'pending';
+      state.bookings.push(onlineBooking);
       Object.entries(state.cart).forEach(([productId, quantity]) => { state.stock[productId] -= quantity; });
       renderProducts();
       renderOperations();
@@ -763,12 +829,24 @@
     document.querySelectorAll('.role-button').forEach(button => button.addEventListener('click', () => setRole(button.dataset.role)));
     document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
     document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
+    document.querySelectorAll('[data-usage-period]').forEach(button => button.addEventListener('click', () => { state.usagePeriod = button.dataset.usagePeriod; renderOwnerUsage(); }));
+    document.getElementById('loginForm').addEventListener('submit', event => {
+      event.preventDefault();
+      if (!event.target.checkValidity()) { event.target.reportValidity(); return; }
+      state.encargadoAuthenticated = true;
+      document.getElementById('loginModal').classList.remove('visible');
+      event.target.reset();
+      setRole('encargado');
+    });
+    document.getElementById('loginCancel').addEventListener('click', () => { document.getElementById('loginModal').classList.remove('visible'); state.pendingRole = null; });
     document.getElementById('quickDate').value = today.toISOString().slice(0, 10);
     document.getElementById('quickTime').innerHTML = times.map(time => `<option>${time.label}</option>`).join('');
     document.getElementById('seedBooking').addEventListener('click', () => document.getElementById('quickBooking').classList.toggle('visible'));
     document.getElementById('quickBooking').addEventListener('submit', event => {
       event.preventDefault();
-      state.bookings.push({ id: Date.now(), name: document.getElementById('quickName').value.trim(), date: document.getElementById('quickDate').value, court: Number(document.getElementById('quickCourt').value), time: document.getElementById('quickTime').value, paid: document.getElementById('quickPaid').value === 'true', items: {} });
+      const quickBooking = { id: Date.now(), name: document.getElementById('quickName').value.trim(), date: document.getElementById('quickDate').value, court: Number(document.getElementById('quickCourt').value), time: document.getElementById('quickTime').value, paid: document.getElementById('quickPaid').value === 'true', items: {} };
+      quickBooking.status = quickBooking.paid ? 'paid' : isPlayingNow(quickBooking) ? 'por-cobrar' : 'pending';
+      state.bookings.push(quickBooking);
       event.target.reset();
       document.getElementById('quickDate').value = today.toISOString().slice(0, 10);
       document.getElementById('quickBooking').classList.remove('visible');
