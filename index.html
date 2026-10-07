@@ -1068,22 +1068,18 @@
     renderSummary();
     renderOperations();
   </script>
+  <script src="./js/config.js"></script>
+  <script src="./js/data-store.js"></script>
+  <script src="./js/auth.js"></script>
   <script>
-    /*
-      Demo data adapter. While APP_API_BASE_URL is empty, data stays in the browser.
-      A future backend can expose PUT /demo-state and set window.APP_API_BASE_URL
-      without changing the screens or their business rules.
-    */
+    const { STORAGE_KEY } = window.PadelConfig;
+    const { loadLocalData, saveLocalData, loadRemoteData, syncRemoteData } = window.PadelDataStore;
+    const { authenticate, getStoredRole, rememberRole } = window.PadelAuth;
     const money = value => `$${Math.round(Number(value || 0)).toLocaleString('es-AR')}`;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const maxBookingDate = new Date(today);
     maxBookingDate.setDate(maxBookingDate.getDate() + 14);
-    const STORAGE_KEY = 'padel-reservas-demo-v3';
-    const DEMO_ACCOUNTS = {
-      encargado: { password: 'demo123', role: 'encargado' },
-      dueno: { password: 'demo123', role: 'dueno' }
-    };
     const DEFAULT_CLUB = {
       name: 'Boceto Padel',
       location: 'Tu club de pádel',
@@ -1117,7 +1113,7 @@
     function loadData() {
       const defaults = buildDefaultData();
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        const saved = loadLocalData(STORAGE_KEY);
         if (!saved) return defaults;
         return {
           club: { ...defaults.club, ...(saved.club || {}) },
@@ -1140,7 +1136,7 @@
       groupSize: 4,
       paymentMethod: 'club',
       role: 'cliente',
-      authenticatedRole: sessionStorage.getItem('padel-demo-role') || null,
+      authenticatedRole: getStoredRole(),
       pendingRole: null,
       usagePeriod: 'day',
       financePeriod: 'week',
@@ -1159,11 +1155,8 @@
 
     function persist() {
       const data = { club: state.club, expenses: state.expenses, stock: state.stock, bookings: state.bookings };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      const endpoint = window.APP_API_BASE_URL;
-      if (endpoint) {
-        fetch(`${endpoint.replace(/\/$/, '')}/demo-state`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(() => {});
-      }
+      saveLocalData(STORAGE_KEY, data);
+      syncRemoteData(data).catch(() => {});
     }
     function applyRemoteData(data) {
       if (!data || typeof data !== 'object') return;
@@ -1175,11 +1168,9 @@
       renderApp();
     }
     async function hydrateRemoteData() {
-      const endpoint = window.APP_API_BASE_URL;
-      if (!endpoint) return;
       try {
-        const response = await fetch(`${endpoint.replace(/\/$/, '')}/demo-state`);
-        if (response.ok) applyRemoteData(await response.json());
+        const data = await loadRemoteData();
+        if (data) applyRemoteData(data);
       } catch {
         showToast('No se pudo sincronizar con el servidor. Se usa la copia local.');
       }
@@ -1578,13 +1569,13 @@
     document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
     document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
     document.querySelectorAll('[data-usage-period]').forEach(button => button.addEventListener('click', () => { state.usagePeriod = button.dataset.usagePeriod; renderOwnerUsage(); }));
-    document.getElementById('loginForm').addEventListener('submit', event => {
+    document.getElementById('loginForm').addEventListener('submit', async event => {
       event.preventDefault();
       const username = document.getElementById('loginUser').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
-      const account = DEMO_ACCOUNTS[username];
-      if (!account || account.password !== password || account.role !== state.pendingRole) { document.getElementById('loginError').textContent = 'Usuario, clave o rol incorrecto.'; return; }
-      state.authenticatedRole = account.role; sessionStorage.setItem('padel-demo-role', account.role); document.getElementById('loginModal').classList.remove('visible'); event.target.reset(); setRole(account.role);
+      const role = await authenticate({ username, password, requestedRole: state.pendingRole });
+      if (!role) { document.getElementById('loginError').textContent = 'Usuario, clave o rol incorrecto.'; return; }
+      state.authenticatedRole = role; rememberRole(role); document.getElementById('loginModal').classList.remove('visible'); event.target.reset(); setRole(role);
     });
     document.getElementById('loginCancel').addEventListener('click', () => { state.pendingRole = null; document.getElementById('loginModal').classList.remove('visible'); });
     document.getElementById('seedBooking').addEventListener('click', () => document.getElementById('quickBooking').classList.toggle('visible'));
