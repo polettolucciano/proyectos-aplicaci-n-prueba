@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HD Padel | Reservas</title>
+  <title>Boceto de reservas de pádel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -313,34 +313,132 @@
       .summary-top, .summary-body { padding-left: 19px; padding-right: 19px; }
       .summary-body { display: block; }
     }
+    /* Dirección visual del boceto: más editorial, cálida y pensada para una app de reservas. */
+    :root {
+      --ink: #17291f;
+      --muted: #6b776f;
+      --blue: #16734e;
+      --blue-deep: #0d4d34;
+      --blue-pale: #e4f3ea;
+      --ice: #f5f6f1;
+      --line: #dce4dc;
+      --orange: #e7a942;
+      --green: #16835a;
+      --shadow: 0 18px 48px rgba(25, 55, 38, .09);
+    }
+    body { background: radial-gradient(circle at 91% -5%, #e4efe6 0, transparent 28rem), var(--ice); }
+    .app-shell { overflow: hidden; }
+    .topbar { background: rgba(255,255,255,.88); backdrop-filter: blur(14px); border-bottom-color: rgba(220,228,220,.9); height: 76px; }
+    .brand { gap: 10px; }
+    .brand-mark { background: #183d2c; border-radius: 11px; box-shadow: 0 8px 18px rgba(24,61,44,.18); font-size: 20px; letter-spacing: 0; }
+    .brand-name { font-size: 17px; letter-spacing: -.7px; text-transform: lowercase; }
+    .brand-name span { color: var(--blue); }
+    .location { font-size: 12px; font-weight: 600; }
+    .profile-button { background: #f0f3ed; color: #536158; font-size: 10px; letter-spacing: .4px; width: 38px; height: 38px; }
+    .role-switcher { background: #f2f5f0; border: 0; border-radius: 12px; padding: 4px; }
+    .role-button { border-radius: 9px; font-size: 11px; padding: 8px 11px; }
+    .role-button.active { box-shadow: 0 3px 10px rgba(25,55,38,.12); color: var(--blue-deep); }
+    main { max-width: 1390px; padding-top: 56px; }
+    .welcome { margin-bottom: 34px; }
+    .eyebrow { color: var(--blue); font-size: 10px; letter-spacing: 1.7px; }
+    h1 { font-size: clamp(35px, 4.2vw, 56px); letter-spacing: -2.8px; line-height: .98; max-width: 560px; }
+    .welcome-copy { font-size: 15px; line-height: 1.6; max-width: 440px; }
+    .hero-court { background: #1f5a3c; border: 7px solid #dce7dd; border-radius: 21px; box-shadow: 0 20px 36px rgba(18,67,43,.17); height: 158px; margin-left: 30px; width: 266px; }
+    .hero-court::before { background: linear-gradient(90deg, rgba(255,255,255,.2) 0 1px, transparent 1px 49.5%, rgba(255,255,255,.2) 49.5% 50.5%, transparent 50.5%), linear-gradient(rgba(255,255,255,.2) 0 1px, transparent 1px 49.5%, rgba(255,255,255,.2) 49.5% 50.5%, transparent 50.5%), #1b714a; background-size: 50% 100%, 100% 50%, auto; border: 1px solid rgba(255,255,255,.7); content: ""; inset: 16px; opacity: .85; position: absolute; }
+    .hero-court::after { background: linear-gradient(180deg, transparent 23%, rgba(9,35,22,.7)); }
+    .hero-badge { background: rgba(10, 43, 28, .84); border-color: rgba(255,255,255,.35); border-radius: 999px; bottom: 13px; font-size: 9px; left: 13px; letter-spacing: 1.15px; padding: 7px 10px; }
+    .hero-stat { color: white; font-family: "Space Grotesk", sans-serif; font-size: 11px; font-weight: 700; position: absolute; right: 14px; top: 13px; z-index: 2; }
+    .date-chip { border: 0; box-shadow: 0 9px 22px rgba(25,55,38,.07); font-size: 12px; padding: 12px 16px; }
+    .panel { border-color: rgba(220,228,220,.95); border-radius: 20px; box-shadow: var(--shadow); }
+    .panel-header { padding: 25px 27px 19px; }
+    .panel-title { font-size: 19px; }
+    .panel-subtitle { line-height: 1.45; }
+    .calendar-panel, .courts-panel, .time-panel, .market-panel { position: relative; }
+    .calendar-panel::before, .courts-panel::before, .time-panel::before, .market-panel::before { background: var(--blue); border-radius: 3px; content: ""; height: 24px; left: 0; opacity: .9; position: absolute; top: 26px; width: 3px; }
+    .day.selected, .time-button.selected { background: var(--blue); border-color: var(--blue); }
+    .day:hover:not(:disabled), .icon-button:hover { background: var(--blue-pale); color: var(--blue-deep); }
+    .court-grid { gap: 13px; }
+    .court-card { background: #fbfcfa; border-radius: 14px; cursor: pointer; padding: 16px; text-align: left; }
+    .court-card:hover, .court-card.active { border-color: #5aab81; box-shadow: 0 10px 24px rgba(22,115,78,.12); }
+    .court-card.active { background: #e8f5ed; }
+    .court-number { background: #dcefe3; color: var(--blue-deep); }
+    .status { font-weight: 700; }
+    .time-button { background: #fbfcfa; border-radius: 11px; }
+    .time-button:hover { border-color: #5aab81; color: var(--blue-deep); }
+    .market-panel { background: linear-gradient(135deg, #fff 0%, #fffdf6 100%); }
+    .product { background: rgba(255,255,255,.62); border: 1px solid transparent; border-radius: 12px; padding: 11px 8px; transition: .18s ease; }
+    .product:hover { border-color: #eadcb9; transform: translateY(-1px); }
+    .product-visual { border-radius: 12px; }
+    .product-prompt { color: #a97825; }
+    .quantity button { background: #f0f4ef; color: var(--blue-deep); }
+    .summary { background: #132d20; border: 1px solid #132d20; border-radius: 20px; box-shadow: 0 20px 48px rgba(19,45,32,.2); }
+    .summary-top { background: linear-gradient(135deg, #1d5037, #153725); padding: 27px 26px 23px; }
+    .summary-top::after { border: 1px solid rgba(211,239,216,.2); border-radius: 50%; content: ""; height: 110px; position: absolute; right: -36px; top: -55px; width: 110px; }
+    .summary h2 { position: relative; z-index: 1; }
+    .summary-body { padding: 23px 26px 26px; }
+    .reserve-button { background: #e8b34a; border-radius: 11px; box-shadow: 0 8px 17px rgba(0,0,0,.12); }
+    .reserve-button:hover { background: #f3c15c; }
+    .split-preview { border-top: 1px solid rgba(255,255,255,.13); margin-top: 2px; padding: 16px 0 2px; }
+    .split-preview-head { align-items: center; display: flex; justify-content: space-between; }
+    .split-preview-title { color: #d9e8dc; font-size: 12px; font-weight: 700; margin: 0; }
+    .split-preview-note { color: #8fa99a; font-size: 10px; margin: 3px 0 0; }
+    .split-buttons { display: flex; gap: 5px; }
+    .split-buttons button { background: #234a35; border: 1px solid #315c45; border-radius: 7px; color: #cce0d1; font-size: 10px; font-weight: 700; height: 27px; width: 27px; }
+    .split-buttons button.active { background: var(--blue); border-color: #56ad7e; color: white; }
+    .split-result { align-items: center; background: rgba(255,255,255,.07); border-radius: 9px; display: flex; justify-content: space-between; margin: 11px 0 1px; padding: 9px 10px; }
+    .split-result span { color: #aac2b1; font-size: 10px; }
+    .split-result strong { color: #fff; font-family: "Space Grotesk", sans-serif; font-size: 14px; }
+    .contact-field { margin-top: 17px; }
+    .operations { margin-top: 32px; }
+    .operations-header { background: #eaf2ec; border: 1px solid #d7e6db; border-radius: 18px; margin-bottom: 20px; padding: 22px 24px; }
+    .metric, .admin-panel, .chart-panel, .usage-panel { border-color: var(--line); box-shadow: 0 8px 23px rgba(25,55,38,.04); }
+    .metric { border-top: 3px solid #b4dec4; }
+    .add-booking-icon, .small-button { background: var(--blue); }
+    .add-booking-icon:hover, .small-button:hover { background: var(--blue-deep); }
+    .chart-bar, .debt-bar { background: var(--blue); }
+    @media (max-width: 1150px) {
+      .topbar { padding-left: 4vw; padding-right: 4vw; }
+      .topbar-right { gap: 12px; }
+      .location { display: none; }
+      .layout { gap: 18px; grid-template-columns: minmax(0, 1.6fr) minmax(286px, .72fr); }
+      .hero-court { margin-left: 10px; }
+      .date-chip { font-size: 11px; padding: 10px 12px; }
+    }
+    @media (max-width: 640px) {
+      .brand-name, .profile-button { display: none; }
+      .topbar { padding: 0 16px; }
+      .topbar-right { gap: 8px; }
+      .hero-court { margin-left: 0; }
+      .operations-header { align-items: start; gap: 14px; }
+    }
   </style>
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">HD</div>
-        <div class="brand-name">hd <span>padel</span></div>
+        <div class="brand-mark">⌁</div>
+        <div class="brand-name">boceto <span>padel</span></div>
       </div>
       <div class="topbar-right">
-        <div class="location">Resistencia, Chaco · RN 16 km 9.9</div>
+        <div class="location">Demo interactiva de reservas</div>
         <div class="role-switcher" aria-label="Cambiar vista">
           <button class="role-button active" data-role="cliente">Cliente</button>
           <button class="role-button" data-role="encargado">Encargado</button>
           <button class="role-button" data-role="dueno">Dueño</button>
         </div>
-        <button class="profile-button" aria-label="Perfil">LP</button>
+        <button class="profile-button" aria-label="Versión de demostración">DEMO</button>
       </div>
     </header>
 
     <main>
       <section class="welcome">
         <div>
-          <p class="eyebrow">Reservas online</p>
-          <h1>Tu próximo part<span class="ball-i">i</span>do<br>empieza acá.</h1>
-          <p class="welcome-copy">Elegí día, cancha y horario. Nosotros nos ocupamos del resto.</p>
+          <p class="eyebrow">Experiencia de reserva</p>
+          <h1>Reservá la cancha.<br>Juntá al equ<span class="ball-i">i</span>po.</h1>
+          <p class="welcome-copy">Elegí día, cancha y horario. Sumá lo que necesites y compartí el total con tu equipo.</p>
         </div>
-        <div class="hero-court"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Padel_rackets_and_balls.jpg" alt="Paletas y pelotas de pádel reales" /><span class="hero-badge">HD PADEL</span></div>
+        <div class="hero-court" aria-label="Ilustración de una cancha de pádel"><span class="hero-stat">4 CANCHAS</span><span class="hero-badge">RESERVÁ EN 3 PASOS</span></div>
         <div class="date-chip"><span>◷</span><span id="selectedDateChip">Seleccioná una fecha</span></div>
       </section>
 
@@ -368,7 +466,7 @@
             <div class="panel-header">
               <div>
                 <h2 class="panel-title">Elegí tu cancha</h2>
-                <p class="panel-subtitle">Canchas 100% profesionales techadas · RN 16 km 9.9</p>
+                <p class="panel-subtitle">Cuatro canchas techadas, con iluminación y cristal panorámico</p>
               </div>
             </div>
             <div class="court-grid" id="courtGrid"></div>
@@ -393,8 +491,8 @@
           <section class="panel market-panel">
             <div class="panel-header">
               <div>
-                <h2 class="panel-title">Sumale algo al partido</h2>
-                <p class="panel-subtitle">Pedilo en la cancha y te lo preparamos</p>
+                <h2 class="panel-title">Sumale algo a tu partido</h2>
+                <p class="panel-subtitle">Dejá todo listo antes de entrar a la cancha</p>
               </div>
               <span class="eyebrow" style="margin:0; color:var(--orange);">Mercado</span>
             </div>
@@ -411,6 +509,18 @@
           <div class="summary-body">
             <div id="summaryDetails"><p class="empty-selection">Completá los datos de tu partido y vas a ver el detalle acá.</p></div>
             <div class="summary-total"><div class="summary-total-label">Total estimado</div><div class="summary-total-value" id="summaryTotal">$0</div></div>
+            <section class="split-preview" aria-labelledby="splitTitle">
+              <div class="split-preview-head">
+                <div><h3 class="split-preview-title" id="splitTitle">Compartí el total</h3><p class="split-preview-note">Elegí cuántos jugadores pagan</p></div>
+                <div class="split-buttons" aria-label="Cantidad de jugadores">
+                  <button type="button" data-split="1" aria-label="Dividir entre 1 jugador">1</button>
+                  <button type="button" data-split="2" aria-label="Dividir entre 2 jugadores">2</button>
+                  <button type="button" data-split="3" aria-label="Dividir entre 3 jugadores">3</button>
+                  <button type="button" data-split="4" aria-label="Dividir entre 4 jugadores">4</button>
+                </div>
+              </div>
+              <div class="split-result" id="splitResult"><span>4 jugadores · por persona</span><strong>$0</strong></div>
+            </section>
             <div class="contact-field"><label for="customerPhone">Teléfono para confirmar la reserva</label><input id="customerPhone" type="tel" inputmode="tel" placeholder="Ej. 11 5555 5555" autocomplete="tel" required></div>
             <button class="reserve-button" id="reserveButton">Confirmar reserva <span>→</span></button>
             <p class="reserve-note">No se realizará ningún cobro ahora.<br>Te confirmaremos la reserva por WhatsApp.</p>
@@ -422,7 +532,7 @@
         <div class="operations-header">
           <div>
             <p class="eyebrow">Panel de gestión</p>
-            <h2 class="operations-title" id="operationsTitle">Operación de HD Padel</h2>
+            <h2 class="operations-title" id="operationsTitle">Gestión de reservas</h2>
             <p class="operations-subtitle" id="operationsSubtitle">Reservas, cobros y stock en un solo lugar.</p>
           </div>
           <div class="action-wrap"><button class="add-booking-icon" id="seedBooking" aria-label="Agregar reserva" title="Agregar reserva">+</button><form class="quick-booking" id="quickBooking"><div class="quick-booking-grid"><label><span class="field-label">Nombre</span><input id="quickName" required placeholder="Nombre del cliente" /></label><label><span class="field-label">Fecha</span><input id="quickDate" required type="date" /></label><label><span class="field-label">Cancha</span><select id="quickCourt"><option>1</option><option>2</option><option>3</option><option>4</option></select></label><label><span class="field-label">Hora</span><select id="quickTime"></select></label><label><span class="field-label">Estado</span><select id="quickPaid"><option value="false">Pendiente</option><option value="true">Pagado</option></select></label></div><button class="small-button" type="submit" style="margin-top:12px; width:100%;">Agregar reserva</button></form></div>
@@ -478,6 +588,7 @@
       court: null,
       time: null,
       cart: {},
+      groupSize: 4,
       role: 'cliente',
       encargadoAuthenticated: false,
       pendingRole: null,
@@ -491,9 +602,9 @@
     };
     const products = [
       { id: 'soda', name: 'Gaseosa fría', detail: 'Lata 354 ml', price: 1800, icon: '🥤', stockLabel: 'Gaseosas' },
-      { id: 'balls', name: 'Pelotitas', detail: 'Tubo x3 unidades', price: 7500, icon: '🎾', stockLabel: 'Pelotitas' },
+      { id: 'balls', name: 'Pelotas nuevas', detail: 'Tubo x3 unidades', price: 7500, icon: '🎾', stockLabel: 'Pelotas' },
       { id: 'water', name: 'Agua mineral', detail: 'Botella 500 ml', price: 1200, icon: '💧', stockLabel: 'Agua' },
-      { id: 'grip', name: 'Overgrip', detail: 'Reemplazo premium', price: 3500, icon: '◒', stockLabel: 'Overgrips' }
+      { id: 'grip', name: 'Alquiler de paleta', detail: 'Paleta para el partido', price: 3500, icon: '🏓', stockLabel: 'Paletas' }
     ];
     const times = Array.from({ length: 14 }, (_, index) => {
       const hour = index + 9;
@@ -570,7 +681,10 @@
         const quantity = state.cart[product.id] || 0;
         const item = document.createElement('div');
         item.className = 'product';
-        item.innerHTML = `<div class="product-visual">${product.icon}</div><div class="product-detail"><div class="product-name">${product.name}</div><div class="product-price">${money(product.price)} · ${product.detail}</div><div class="product-prompt">Solicitalo al encargado en la cancha</div></div>`;
+        item.innerHTML = `<div class="product-visual">${product.icon}</div><div class="product-detail"><div class="product-name">${product.name}</div><div class="product-price">${money(product.price)} · ${product.detail}</div><div class="product-prompt">Sumalo a tu reserva</div></div><div class="quantity"><button type="button" aria-label="Quitar ${product.name}">−</button><span class="quantity-value">${quantity}</span><button type="button" aria-label="Agregar ${product.name}">+</button></div>`;
+        const [removeButton, addButton] = item.querySelectorAll('.quantity button');
+        removeButton.addEventListener('click', () => updateCart(product.id, -1));
+        addButton.addEventListener('click', () => updateCart(product.id, 1));
         wrapper.appendChild(item);
       });
     }
@@ -600,7 +714,21 @@
         if (state.time) details.innerHTML += `<div class="summary-row"><span class="summary-item">${state.time.light ? 'Iluminación' : 'Horario diurno'}<span class="summary-sub">${state.time.light ? 'Desde las 18:00' : 'Hasta las 17:00'}</span></span><span class="summary-value">Incluida</span></div>`;
         cartItems.forEach(product => { details.innerHTML += `<div class="summary-row"><span class="summary-item">${product.name}<span class="summary-sub">${state.cart[product.id]} unidad${state.cart[product.id] > 1 ? 'es' : ''}</span></span><span class="summary-value">${money(product.price * state.cart[product.id])}</span></div>`; });
       }
-      document.getElementById('summaryTotal').textContent = money(bookingPrice + marketTotal);
+      const total = bookingPrice + marketTotal;
+      document.getElementById('summaryTotal').textContent = money(total);
+      renderSplitPreview(total);
+    }
+
+    function renderSplitPreview(total) {
+      const players = state.groupSize;
+      const result = document.getElementById('splitResult');
+      const perPerson = total / players;
+      result.innerHTML = `<span>${players} jugador${players > 1 ? 'es' : ''} · por persona</span><strong>${money(perPerson)}</strong>`;
+      document.querySelectorAll('[data-split]').forEach(button => {
+        const isActive = Number(button.dataset.split) === players;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+      });
     }
 
     function bookingTotal(booking) {
@@ -818,7 +946,7 @@
       const phone = phoneInput.value.trim();
       const phoneDigits = phone.replace(/\D/g, '');
       if (phoneDigits.length < 8 || phoneDigits.length > 15) { phoneInput.focus(); showToast('Ingresá un teléfono válido para confirmar'); return; }
-      const onlineBooking = { id: Date.now(), name: 'Reserva online', phone, date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {} };
+      const onlineBooking = { id: Date.now(), name: 'Reserva online', phone, date: state.date.toISOString().slice(0, 10), court: state.court, time: state.time.label, paid: false, items: {}, payers: Array.from({ length: state.groupSize }, (_, index) => ({ name: `Jugador ${index + 1}`, paid: false })) };
       onlineBooking.status = isPlayingNow(onlineBooking) ? 'por-cobrar' : 'pending';
       state.bookings.push(onlineBooking);
       Object.entries(state.cart).forEach(([productId, quantity]) => { state.stock[productId] -= quantity; });
@@ -827,6 +955,7 @@
       showToast(`Reserva registrada. Te confirmaremos al ${phone}`);
     });
     document.querySelectorAll('.role-button').forEach(button => button.addEventListener('click', () => setRole(button.dataset.role)));
+    document.querySelectorAll('[data-split]').forEach(button => button.addEventListener('click', () => { state.groupSize = Number(button.dataset.split); renderSummary(); }));
     document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
     document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
     document.querySelectorAll('[data-usage-period]').forEach(button => button.addEventListener('click', () => { state.usagePeriod = button.dataset.usagePeriod; renderOwnerUsage(); }));
