@@ -648,6 +648,51 @@
       .court-card, .time-button, .product, .reserve-button { transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
     }
     @keyframes court-float { 50% { transform: rotate(-3deg) translateY(-5px); } }
+
+    /* Operación: navegación fija y privada para el equipo del club. */
+    .operations.visible { align-items: start; grid-template-columns: 224px minmax(0, 1fr); }
+    .operations-main { display: grid; gap: 20px; min-width: 0; }
+    .operations-main > .operations-header { margin-bottom: 0; }
+    .backoffice-sidebar {
+      background: linear-gradient(165deg, rgba(22, 58, 38, .98), rgba(8, 25, 16, .98));
+      border: 1px solid rgba(216, 255, 112, .16);
+      border-radius: 18px;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.04);
+      padding: 18px 14px;
+      position: sticky;
+      top: 94px;
+    }
+    .backoffice-sidebar-brand { align-items: center; color: #efffd3; display: flex; font-family: "Space Grotesk", sans-serif; font-size: 14px; font-weight: 700; gap: 8px; padding: 3px 6px 0; }
+    .sidebar-pulse { background: #d9ff69; border-radius: 50%; box-shadow: 0 0 14px #d9ff69; height: 8px; width: 8px; }
+    .backoffice-sidebar-copy { color: #a7bca7; font-size: 11px; line-height: 1.5; margin: 10px 6px 17px; }
+    .backoffice-nav-list { display: grid; gap: 6px; }
+    .backoffice-nav-list button { align-items: center; background: transparent; border: 1px solid transparent; border-radius: 10px; color: #cad8c9; display: flex; font-size: 11px; font-weight: 700; gap: 9px; padding: 10px; text-align: left; transition: .18s ease; width: 100%; }
+    .backoffice-nav-list button[hidden] { display: none; }
+    .backoffice-nav-list button span { align-items: center; background: rgba(216, 255, 112, .1); border-radius: 7px; color: #e3ff94; display: inline-flex; font-size: 13px; height: 25px; justify-content: center; width: 25px; }
+    .backoffice-nav-list button:hover { background: rgba(216,255,112,.1); border-color: rgba(216,255,112,.2); color: #f2ffdf; transform: translateX(2px); }
+    .backoffice-sidebar-tip { border-top: 1px solid rgba(216,255,112,.12); color: #90a891; font-size: 10px; line-height: 1.45; margin: 17px 5px 1px; padding-top: 14px; }
+    .stock-row { align-items: center; gap: 9px; }
+    .stock-row .stock-info { min-width: 0; }
+    .stock-meta { color: #98ae98; font-size: 10px; margin-top: 3px; }
+    .stock-row.low-stock .stock-fill { background: #ff9a55; }
+    .stock-row.low-stock .stock-count { color: #ffd0a6; }
+    .restock-button { background: rgba(216,255,112,.1); border: 1px solid rgba(216,255,112,.22); border-radius: 7px; color: #e4ff98; font-size: 10px; font-weight: 700; padding: 7px 8px; white-space: nowrap; }
+    .restock-button:hover { background: #d9ff69; border-color: #d9ff69; color: #142a1b; }
+    .settings-form { grid-template-columns: 1.25fr 1.35fr 1.1fr 1.1fr .72fr .72fr auto; }
+    @media (max-width: 1020px) {
+      .operations.visible { grid-template-columns: 1fr; }
+      .backoffice-sidebar { align-items: center; display: flex; gap: 12px; padding: 12px; position: static; }
+      .backoffice-sidebar-copy, .backoffice-sidebar-tip { display: none; }
+      .backoffice-sidebar-brand { flex: 0 0 auto; padding: 0 5px; }
+      .backoffice-nav-list { display: flex; flex: 1; overflow-x: auto; }
+      .backoffice-nav-list button { min-width: max-content; }
+    }
+    @media (max-width: 640px) {
+      .backoffice-sidebar { align-items: stretch; display: block; overflow-x: auto; }
+      .backoffice-sidebar-brand { margin-bottom: 10px; }
+      .backoffice-nav-list { width: max-content; }
+      .backoffice-nav-list button { font-size: 10px; }
+    }
   </style>
 </head>
 <body>
@@ -776,6 +821,19 @@
       </div>
 
       <section class="operations" id="operations">
+        <aside class="backoffice-sidebar" id="backofficeSidebar" aria-label="Navegación de gestión">
+          <div class="backoffice-sidebar-brand"><span class="sidebar-pulse"></span><span id="sidebarRoleLabel">Gestión</span></div>
+          <p class="backoffice-sidebar-copy" id="sidebarRoleCopy">Accesos rápidos para trabajar sin recorrer toda la pantalla.</p>
+          <nav class="backoffice-nav-list">
+            <button type="button" data-side-target="agendaSection" data-side-roles="encargado"><span>▦</span> Agenda y cobros</button>
+            <button type="button" data-side-action="new-booking" data-side-roles="encargado"><span>＋</span> Nueva reserva</button>
+            <button type="button" data-side-target="ownerFinance" data-side-roles="dueno"><span>↗</span> Finanzas</button>
+            <button type="button" data-side-target="inventoryPanel" data-side-roles="dueno"><span>◫</span> Inventario</button>
+            <button type="button" data-side-target="clubSettings" data-side-roles="dueno"><span>⚙</span> Configuración</button>
+          </nav>
+          <div class="backoffice-sidebar-tip" id="sidebarTip">Los cobros registrados se reflejan en los ingresos del día.</div>
+        </aside>
+        <div class="operations-main">
         <div class="operations-header">
           <div>
             <p class="eyebrow">Panel de gestión</p>
@@ -792,26 +850,27 @@
           </div>
           <div class="charts-grid"><section class="chart-panel"><h3 class="chart-title" id="financeChartTitle">Ingresos</h3><p class="chart-subtitle" id="financeChartSubtitle">Reservas y ventas cobradas</p><div class="chart" id="financeChart"></div><div class="chart-legend"><span><i class="income-dot" id="financeChartDot"></i><span id="financeChartLegend">Ingresos cobrados</span></span></div></section></div>
           <section class="usage-panel"><div class="usage-toolbar"><div><h3 class="usage-title">Uso de canchas</h3><p class="panel-subtitle">Horas utilizadas en reservas registradas</p></div><div class="period-switcher"><button class="period-button active" data-usage-period="day">Día</button><button class="period-button" data-usage-period="week">Semana</button><button class="period-button" data-usage-period="month">Mes</button></div></div><div class="usage-total" id="usageTotal">0 horas</div></section>
-          <section class="club-settings">
+          <section class="club-settings" id="clubSettings">
             <div class="admin-panel-header"><div><h3 class="admin-panel-title">Configuración del club</h3><p class="panel-subtitle">Estos datos se reflejan de inmediato en la reserva.</p></div><span class="settings-badge">Dueño</span></div>
             <form class="settings-form" id="clubForm">
               <label><span class="field-label">Nombre</span><input id="clubNameInput" required maxlength="40" placeholder="Nombre del club" /></label>
               <label><span class="field-label">Ubicación</span><input id="clubLocationInput" required maxlength="70" placeholder="Dirección o zona" /></label>
               <label><span class="field-label">WhatsApp del club</span><input id="clubWhatsappInput" inputmode="tel" placeholder="54911..." /></label>
+              <label><span class="field-label">WhatsApp proveedor</span><input id="supplierWhatsappInput" inputmode="tel" placeholder="54911..." /></label>
               <label><span class="field-label">Tarifa diurna</span><input id="dayPriceInput" required min="1" type="number" /></label>
               <label><span class="field-label">Tarifa nocturna</span><input id="nightPriceInput" required min="1" type="number" /></label>
               <button class="small-button" type="submit">Guardar configuración</button>
             </form>
           </section>
         </div>
-        <div class="admin-grid">
+        <div class="admin-grid" id="agendaSection">
           <section class="admin-panel" id="bookingsPanel">
             <div class="admin-panel-header"><h3 class="admin-panel-title">Reservas del día</h3><span class="panel-subtitle">Editables por el encargado</span></div>
             <div id="bookingTable"></div>
           </section>
           <div class="content-column">
-            <section class="admin-panel">
-              <div class="admin-panel-header"><h3 class="admin-panel-title">Inventario</h3><span class="panel-subtitle">Control interno</span></div>
+            <section class="admin-panel" id="inventoryPanel">
+              <div class="admin-panel-header"><div><h3 class="admin-panel-title">Inventario</h3><p class="panel-subtitle">Solo visible para el dueño</p></div><span class="settings-badge">Privado</span></div>
               <div class="stock-list" id="stockList"></div>
             </section>
             <section class="admin-panel" id="expensesPanel">
@@ -819,6 +878,7 @@
               <form class="expense-form" id="expenseForm"><label><span class="field-label">Concepto</span><input id="expenseName" required placeholder="Luz, alquiler..." /></label><label><span class="field-label">Importe</span><input id="expenseAmount" required min="1" type="number" placeholder="$0" /></label><button class="small-button" type="submit">Guardar</button></form>
             </section>
           </div>
+        </div>
         </div>
       </section>
     </main>
@@ -1281,6 +1341,7 @@
       name: 'Boceto Padel',
       location: 'Tu club de pádel',
       whatsapp: '',
+      supplierWhatsapp: '',
       dayPrice: 13000,
       nightPrice: 16000
     };
@@ -1290,6 +1351,7 @@
       { id: 'water', name: 'Agua mineral', detail: 'Botella 500 ml', price: 1200, icon: '💧', stockLabel: 'Agua' },
       { id: 'grip', name: 'Alquiler de paleta', detail: 'Paleta para el partido', price: 3500, icon: '🏓', stockLabel: 'Paletas' }
     ];
+    const restockTargets = { soda: 36, balls: 18, water: 42, grip: 24 };
     const monthFormatter = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' });
     const dateFormatter = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
     const dateKey = date => new Date(date).toISOString().slice(0, 10);
@@ -1497,7 +1559,7 @@
         const quantity = state.cart[product.id] || 0;
         const item = document.createElement('div');
         item.className = 'product';
-        item.innerHTML = `<div class="product-visual">${product.icon}</div><div class="product-detail"><div class="product-name">${product.name}</div><div class="product-price">${money(product.price)} · ${product.detail}</div><div class="product-prompt">${state.stock[product.id]} disponibles</div></div><div class="quantity"><button type="button" aria-label="Quitar ${product.name}">−</button><span class="quantity-value">${quantity}</span><button type="button" aria-label="Agregar ${product.name}">+</button></div>`;
+        item.innerHTML = `<div class="product-visual">${product.icon}</div><div class="product-detail"><div class="product-name">${product.name}</div><div class="product-price">${money(product.price)} · ${product.detail}</div><div class="product-prompt">Disponible para sumar a tu reserva</div></div><div class="quantity"><button type="button" aria-label="Quitar ${product.name}">−</button><span class="quantity-value">${quantity}</span><button type="button" aria-label="Agregar ${product.name}">+</button></div>`;
         const [remove, add] = item.querySelectorAll('.quantity button');
         remove.disabled = quantity === 0;
         add.disabled = quantity >= state.stock[product.id];
@@ -1569,6 +1631,14 @@
       document.getElementById('dashboardMetrics').innerHTML = metrics.map(metric => `<div class="metric"><div class="metric-label">${metric[0]}</div><div class="metric-value">${metric[1]}</div><div class="metric-note">${metric[2]}</div></div>`).join('');
     }
 
+    function renderBackofficeSidebar() {
+      const isOwner = state.role === 'dueno';
+      document.getElementById('sidebarRoleLabel').textContent = isOwner ? 'Panel del dueño' : 'Panel del encargado';
+      document.getElementById('sidebarRoleCopy').textContent = isOwner ? 'Finanzas, inventario y decisiones del club sin recorrer toda la pantalla.' : 'Accesos rápidos para agenda, cobros y nuevas reservas.';
+      document.getElementById('sidebarTip').textContent = isOwner ? 'El inventario y los pedidos de reposición solo se muestran en esta vista.' : 'Cada cobro registrado actualiza los indicadores del día.';
+      document.querySelectorAll('[data-side-roles]').forEach(button => { button.hidden = !button.dataset.sideRoles.split(' ').includes(state.role); });
+    }
+
     function renderOperations() {
       const isOwner = state.role === 'dueno';
       const isBackoffice = state.role !== 'cliente';
@@ -1577,13 +1647,14 @@
       document.getElementById('operations').classList.toggle('visible', isBackoffice);
       document.getElementById('ownerFinance').classList.toggle('visible', isOwner);
       document.getElementById('bookingsPanel').style.display = isOwner ? 'none' : '';
+      document.getElementById('inventoryPanel').style.display = isOwner ? '' : 'none';
+      renderBackofficeSidebar();
       renderDashboardMetrics();
       document.getElementById('operationsTitle').textContent = isOwner ? 'Números del negocio' : 'Agenda y operación';
       document.getElementById('operationsSubtitle').textContent = isOwner ? 'Ganancias, deudas, gastos y configuración en un solo lugar.' : 'Editá reservas, cobros y ventas del turno.';
       document.getElementById('expensesPanel').style.display = isOwner ? '' : 'none';
       if (!isOwner) renderBookingTable();
-      renderStock();
-      if (isOwner) { renderOwnerFinance(); renderClubSettings(); }
+      if (isOwner) { renderStock(); renderOwnerFinance(); renderClubSettings(); }
     }
 
     function renderOwnerFinance() {
@@ -1707,14 +1778,30 @@
     function renderStock() {
       document.getElementById('stockList').innerHTML = products.map(product => {
         const count = state.stock[product.id];
-        return `<div class="stock-row"><div class="stock-icon">${product.icon}</div><div class="stock-info"><div class="stock-name">${product.stockLabel}</div><div class="stock-bar"><div class="stock-fill" style="width:${Math.min(100, count / 30 * 100)}%"></div></div></div><div class="stock-count">${count}</div></div>`;
+        const target = restockTargets[product.id] || 24;
+        const suggested = Math.max(1, target - count);
+        const lowStock = count <= Math.ceil(target * .4);
+        return `<div class="stock-row${lowStock ? ' low-stock' : ''}"><div class="stock-icon">${product.icon}</div><div class="stock-info"><div class="stock-name">${product.stockLabel}</div><div class="stock-meta">${lowStock ? 'Stock bajo · conviene reponer' : 'Stock en nivel correcto'}</div><div class="stock-bar"><div class="stock-fill" style="width:${Math.min(100, count / target * 100)}%"></div></div></div><div class="stock-count">${count}</div><button type="button" class="restock-button" data-restock="${product.id}">Pedir +${suggested}</button></div>`;
       }).join('');
+      document.querySelectorAll('[data-restock]').forEach(button => button.addEventListener('click', () => requestRestock(button.dataset.restock)));
+    }
+
+    function requestRestock(productId) {
+      if (state.role !== 'dueno') return;
+      const supplierNumber = String(state.club.supplierWhatsapp || '').replace(/\D/g, '');
+      if (supplierNumber.length < 8) return showToast('Cargá el WhatsApp del proveedor para pedir reposición');
+      const product = products.find(item => item.id === productId);
+      const current = state.stock[productId];
+      const quantity = Math.max(1, (restockTargets[productId] || 24) - current);
+      const message = `Hola, necesito pedir reposición para ${state.club.name}: ${quantity} unidad${quantity === 1 ? '' : 'es'} de ${product.stockLabel.toLowerCase()}. Stock actual: ${current}.`;
+      window.open(`https://wa.me/${supplierNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
     }
 
     function renderClubSettings() {
       document.getElementById('clubNameInput').value = state.club.name;
       document.getElementById('clubLocationInput').value = state.club.location;
       document.getElementById('clubWhatsappInput').value = state.club.whatsapp;
+      document.getElementById('supplierWhatsappInput').value = state.club.supplierWhatsapp || '';
       document.getElementById('dayPriceInput').value = state.club.dayPrice;
       document.getElementById('nightPriceInput').value = state.club.nightPrice;
     }
@@ -1723,6 +1810,7 @@
         name: document.getElementById('clubNameInput').value.trim(),
         location: document.getElementById('clubLocationInput').value.trim(),
         whatsapp: document.getElementById('clubWhatsappInput').value.trim(),
+        supplierWhatsapp: document.getElementById('supplierWhatsappInput').value.trim(),
         dayPrice: Number(document.getElementById('dayPriceInput').value),
         nightPrice: Number(document.getElementById('nightPriceInput').value)
       };
@@ -1810,6 +1898,8 @@
     document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
     document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
     document.querySelectorAll('[data-usage-period]').forEach(button => button.addEventListener('click', () => { state.usagePeriod = button.dataset.usagePeriod; renderOwnerUsage(); }));
+    document.querySelectorAll('[data-side-target]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.sideTarget)?.scrollIntoView({ behavior: 'smooth', block: 'start' })));
+    document.querySelectorAll('[data-side-action="new-booking"]').forEach(button => button.addEventListener('click', () => { document.getElementById('seedBooking').click(); document.getElementById('quickBooking').scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
     document.getElementById('loginForm').addEventListener('submit', async event => {
       event.preventDefault();
       const username = document.getElementById('loginUser').value.trim().toLowerCase();
