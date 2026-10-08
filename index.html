@@ -662,6 +662,11 @@
       position: sticky;
       top: 94px;
     }
+    .backoffice-sidebar-header { align-items: center; border-bottom: 1px solid rgba(216,255,112,.13); display: flex; gap: 10px; margin: -2px 0 16px; padding: 0 5px 17px; }
+    .backoffice-sidebar-mark { align-items: center; background: linear-gradient(145deg, #d9ff69, #71e6ab); border-radius: 9px; color: #0b2016; display: flex; font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; height: 34px; justify-content: center; width: 34px; }
+    .backoffice-sidebar-header strong { color: #f2ffe2; display: block; font-family: "Space Grotesk", sans-serif; font-size: 13px; letter-spacing: -.4px; text-transform: lowercase; }
+    .backoffice-sidebar-header span { color: #92a994; display: block; font-size: 9px; font-weight: 700; letter-spacing: 1.2px; margin-top: 3px; text-transform: uppercase; }
+    .backoffice-menu-label { color: #819182; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; padding: 0 6px; text-transform: uppercase; }
     .backoffice-sidebar-brand { align-items: center; color: #efffd3; display: flex; font-family: "Space Grotesk", sans-serif; font-size: 14px; font-weight: 700; gap: 8px; padding: 3px 6px 0; }
     .sidebar-pulse { background: #d9ff69; border-radius: 50%; box-shadow: 0 0 14px #d9ff69; height: 8px; width: 8px; }
     .backoffice-sidebar-copy { color: #a7bca7; font-size: 11px; line-height: 1.5; margin: 10px 6px 17px; }
@@ -670,7 +675,11 @@
     .backoffice-nav-list button[hidden] { display: none; }
     .backoffice-nav-list button span { align-items: center; background: rgba(216, 255, 112, .1); border-radius: 7px; color: #e3ff94; display: inline-flex; font-size: 13px; height: 25px; justify-content: center; width: 25px; }
     .backoffice-nav-list button:hover { background: rgba(216,255,112,.1); border-color: rgba(216,255,112,.2); color: #f2ffdf; transform: translateX(2px); }
+    .backoffice-nav-list button.active { background: #d9ff69; border-color: #d9ff69; box-shadow: 0 9px 22px rgba(0,0,0,.19); color: #102519; }
+    .backoffice-nav-list button.active span { background: rgba(15,42,25,.12); color: #102519; }
     .backoffice-sidebar-tip { border-top: 1px solid rgba(216,255,112,.12); color: #90a891; font-size: 10px; line-height: 1.45; margin: 17px 5px 1px; padding-top: 14px; }
+    .sidebar-exit { align-items: center; background: transparent; border: 1px solid rgba(216,255,112,.18); border-radius: 10px; color: #c9d7c8; display: flex; font-size: 11px; font-weight: 700; gap: 8px; justify-content: center; margin-top: 18px; padding: 10px; width: 100%; }
+    .sidebar-exit:hover { background: rgba(216,255,112,.09); border-color: rgba(216,255,112,.35); color: #ecffbd; }
     .stock-row { align-items: center; gap: 9px; }
     .stock-row .stock-info { min-width: 0; }
     .stock-meta { color: #98ae98; font-size: 10px; margin-top: 3px; }
@@ -679,11 +688,26 @@
     .restock-button { background: rgba(216,255,112,.1); border: 1px solid rgba(216,255,112,.22); border-radius: 7px; color: #e4ff98; font-size: 10px; font-weight: 700; padding: 7px 8px; white-space: nowrap; }
     .restock-button:hover { background: #d9ff69; border-color: #d9ff69; color: #142a1b; }
     .settings-form { grid-template-columns: 1.25fr 1.35fr 1.1fr 1.1fr .72fr .72fr auto; }
+    .management-mode .topbar { display: none; }
+    .management-mode main { margin: 0 0 0 264px; max-width: none; padding: 42px 48px 72px; }
+    .management-mode .operations { margin-top: 0; }
+    .management-mode .operations.visible { display: block; }
+    .management-mode .backoffice-sidebar { border-radius: 0; border-bottom: 0; border-left: 0; border-top: 0; bottom: 0; left: 0; min-height: 100vh; padding: 25px 20px; position: fixed; top: 0; width: 264px; z-index: 10; }
+    .management-mode .backoffice-nav-list { margin-top: 15px; }
+    .management-mode .backoffice-sidebar-tip { margin-top: 19px; }
+    .management-mode .sidebar-exit { bottom: 22px; left: 20px; position: absolute; width: calc(100% - 40px); }
+    .management-mode .operations-main { gap: 22px; }
     @media (max-width: 1020px) {
+      .management-mode main { margin: 0; padding: 28px 4vw 60px; }
+      .management-mode .topbar { display: flex; }
+      .management-mode .operations.visible { display: grid; }
+      .management-mode .backoffice-sidebar { min-height: auto; padding: 12px; position: static; width: auto; }
       .operations.visible { grid-template-columns: 1fr; }
       .backoffice-sidebar { align-items: center; display: flex; gap: 12px; padding: 12px; position: static; }
       .backoffice-sidebar-copy, .backoffice-sidebar-tip { display: none; }
       .backoffice-sidebar-brand { flex: 0 0 auto; padding: 0 5px; }
+      .backoffice-sidebar-header { border: 0; flex: 0 0 auto; margin: 0; padding: 0 5px; }
+      .backoffice-menu-label, .sidebar-exit { display: none; }
       .backoffice-nav-list { display: flex; flex: 1; overflow-x: auto; }
       .backoffice-nav-list button { min-width: max-content; }
     }
@@ -822,7 +846,8 @@
 
       <section class="operations" id="operations">
         <aside class="backoffice-sidebar" id="backofficeSidebar" aria-label="Navegación de gestión">
-          <div class="backoffice-sidebar-brand"><span class="sidebar-pulse"></span><span id="sidebarRoleLabel">Gestión</span></div>
+          <div class="backoffice-sidebar-header"><div class="backoffice-sidebar-mark">⌁</div><div><strong id="sidebarClubName">boceto padel</strong><span id="sidebarRoleLabel">Gestión</span></div></div>
+          <div class="backoffice-menu-label">Menú principal</div>
           <p class="backoffice-sidebar-copy" id="sidebarRoleCopy">Accesos rápidos para trabajar sin recorrer toda la pantalla.</p>
           <nav class="backoffice-nav-list">
             <button type="button" data-side-target="agendaSection" data-side-roles="encargado"><span>▦</span> Agenda y cobros</button>
@@ -832,6 +857,7 @@
             <button type="button" data-side-target="clubSettings" data-side-roles="dueno"><span>⚙</span> Configuración</button>
           </nav>
           <div class="backoffice-sidebar-tip" id="sidebarTip">Los cobros registrados se reflejan en los ingresos del día.</div>
+          <button class="sidebar-exit" type="button" data-side-action="client-view"><span>←</span> Volver a reservas</button>
         </aside>
         <div class="operations-main">
         <div class="operations-header">
@@ -1633,15 +1659,24 @@
 
     function renderBackofficeSidebar() {
       const isOwner = state.role === 'dueno';
+      document.getElementById('sidebarClubName').textContent = state.club.name;
       document.getElementById('sidebarRoleLabel').textContent = isOwner ? 'Panel del dueño' : 'Panel del encargado';
       document.getElementById('sidebarRoleCopy').textContent = isOwner ? 'Finanzas, inventario y decisiones del club sin recorrer toda la pantalla.' : 'Accesos rápidos para agenda, cobros y nuevas reservas.';
       document.getElementById('sidebarTip').textContent = isOwner ? 'El inventario y los pedidos de reposición solo se muestran en esta vista.' : 'Cada cobro registrado actualiza los indicadores del día.';
       document.querySelectorAll('[data-side-roles]').forEach(button => { button.hidden = !button.dataset.sideRoles.split(' ').includes(state.role); });
+      const defaultTarget = isOwner ? 'ownerFinance' : 'agendaSection';
+      document.querySelectorAll('[data-side-target]').forEach(button => button.classList.toggle('active', button.dataset.sideTarget === defaultTarget && !button.hidden));
+    }
+
+    function setActiveSidebarButton(button) {
+      document.querySelectorAll('[data-side-target], [data-side-action="new-booking"]').forEach(item => item.classList.remove('active'));
+      button.classList.add('active');
     }
 
     function renderOperations() {
       const isOwner = state.role === 'dueno';
       const isBackoffice = state.role !== 'cliente';
+      document.querySelector('.app-shell').classList.toggle('management-mode', isBackoffice);
       document.querySelector('.layout').style.display = isBackoffice ? 'none' : '';
       document.querySelector('.welcome').style.display = isBackoffice ? 'none' : '';
       document.getElementById('operations').classList.toggle('visible', isBackoffice);
@@ -1898,8 +1933,9 @@
     document.querySelectorAll('.period-button[data-period]').forEach(button => button.addEventListener('click', () => { state.financePeriod = button.dataset.period; renderOwnerFinance(); }));
     document.querySelectorAll('.period-button[data-metric]').forEach(button => button.addEventListener('click', () => { state.financeMetric = button.dataset.metric; renderOwnerFinance(); }));
     document.querySelectorAll('[data-usage-period]').forEach(button => button.addEventListener('click', () => { state.usagePeriod = button.dataset.usagePeriod; renderOwnerUsage(); }));
-    document.querySelectorAll('[data-side-target]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.sideTarget)?.scrollIntoView({ behavior: 'smooth', block: 'start' })));
-    document.querySelectorAll('[data-side-action="new-booking"]').forEach(button => button.addEventListener('click', () => { document.getElementById('seedBooking').click(); document.getElementById('quickBooking').scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+    document.querySelectorAll('[data-side-target]').forEach(button => button.addEventListener('click', () => { setActiveSidebarButton(button); document.getElementById(button.dataset.sideTarget)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+    document.querySelectorAll('[data-side-action="new-booking"]').forEach(button => button.addEventListener('click', () => { setActiveSidebarButton(button); document.getElementById('seedBooking').click(); document.getElementById('quickBooking').scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+    document.querySelectorAll('[data-side-action="client-view"]').forEach(button => button.addEventListener('click', () => setRole('cliente')));
     document.getElementById('loginForm').addEventListener('submit', async event => {
       event.preventDefault();
       const username = document.getElementById('loginUser').value.trim().toLowerCase();
