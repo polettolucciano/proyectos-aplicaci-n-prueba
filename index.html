@@ -455,6 +455,199 @@
       .confirmation-link, .calendar-download { text-align: center; width: 100%; }
       .cancel-button { margin: 5px 0 0; }
     }
+
+    /* Dirección visual: night padel club — energía de partido nocturno, neón y cristal. */
+    :root {
+      --ink: #eff9e9;
+      --muted: #a7b4a7;
+      --blue: #c8f45a;
+      --blue-deep: #0d2118;
+      --blue-pale: rgba(200, 244, 90, .14);
+      --ice: #06120d;
+      --line: rgba(216, 244, 207, .14);
+      --orange: #ff9a55;
+      --green: #6de2ad;
+      --white: #0c1d15;
+      --shadow: 0 22px 55px rgba(0, 0, 0, .28);
+    }
+    body {
+      background:
+        radial-gradient(circle at 13% 5%, rgba(111, 238, 165, .16), transparent 21rem),
+        radial-gradient(circle at 88% 22%, rgba(200, 244, 90, .11), transparent 23rem),
+        linear-gradient(135deg, #06120d 0%, #081b13 48%, #06110d 100%);
+      color: var(--ink);
+    }
+    .app-shell { overflow: clip; position: relative; }
+    .app-shell::before {
+      background-image: linear-gradient(rgba(212, 255, 195, .026) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 255, 195, .026) 1px, transparent 1px);
+      background-size: 42px 42px;
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+    .topbar {
+      background: rgba(5, 18, 12, .74);
+      border-bottom-color: rgba(216, 244, 207, .12);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .16);
+      position: relative;
+      z-index: 2;
+    }
+    .brand-mark {
+      background: linear-gradient(145deg, #d9ff69, #74e8ae);
+      box-shadow: 0 0 0 5px rgba(200, 244, 90, .08), 0 10px 28px rgba(111, 238, 165, .3);
+      color: #0b2016;
+    }
+    .brand-name { color: #f4ffeb; letter-spacing: -1px; }
+    .brand-name span, .eyebrow { color: var(--blue); }
+    .location { color: #afbbad; }
+    .role-switcher { background: rgba(255,255,255,.045); border-color: rgba(216, 244, 207, .12); box-shadow: inset 0 1px 0 rgba(255,255,255,.04); }
+    .role-button { color: #9da99e; }
+    .role-button.active { background: #d9ff69; box-shadow: 0 6px 18px rgba(0,0,0,.2); color: #102319; }
+    .profile-button { background: rgba(216, 255, 112, .11); border: 1px solid rgba(216, 255, 112, .22); color: #dcff7d; }
+    main { position: relative; z-index: 1; }
+    .welcome {
+      background: linear-gradient(115deg, rgba(20, 51, 34, .95), rgba(11, 35, 24, .88));
+      border: 1px solid rgba(196, 244, 164, .16);
+      border-radius: 28px;
+      box-shadow: 0 25px 60px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.05);
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(220px, .65fr) auto;
+      gap: 30px;
+      margin-bottom: 32px;
+      min-height: 242px;
+      overflow: hidden;
+      padding: 39px 42px;
+      position: relative;
+    }
+    .welcome::before {
+      border: 1px solid rgba(207, 255, 143, .12);
+      border-radius: 50%;
+      content: "";
+      height: 390px;
+      position: absolute;
+      right: 14%;
+      top: -248px;
+      width: 390px;
+    }
+    .welcome::after {
+      background: linear-gradient(90deg, transparent, rgba(200,244,90,.13), transparent);
+      content: "";
+      height: 1px;
+      left: 0;
+      position: absolute;
+      top: 27px;
+      width: 100%;
+    }
+    .welcome > * { position: relative; z-index: 1; }
+    h1 { color: #f5ffed; font-size: clamp(38px, 4.5vw, 60px); letter-spacing: -3.1px; }
+    .welcome-copy { color: #bbcab8; max-width: 460px; }
+    .team-word { white-space: nowrap; }
+    .ball-i { color: var(--blue); }
+    .ball-i::before { background: #d9ff69; border-color: #1c4e34; box-shadow: 0 0 14px #d9ff69; }
+    .hero-court {
+      background:
+        linear-gradient(115deg, transparent 49.5%, rgba(222,255,205,.38) 50%, transparent 50.5%),
+        linear-gradient(90deg, transparent 49.5%, rgba(222,255,205,.38) 50%, transparent 50.5%),
+        linear-gradient(135deg, #276f48, #102d20);
+      border: 1px solid rgba(215, 255, 156, .42);
+      border-radius: 18px;
+      box-shadow: 0 18px 32px rgba(0,0,0,.25), inset 0 0 0 7px rgba(216,255,184,.1);
+      height: 154px;
+      margin: 0;
+      transform: rotate(-3deg);
+      width: 100%;
+    }
+    .hero-court::before { border-color: rgba(225,255,203,.56); inset: 17px; opacity: 1; }
+    .hero-court::after { background: linear-gradient(180deg, transparent 25%, rgba(3, 18, 10, .72)); }
+    .hero-badge { background: rgba(8, 30, 18, .8); border-color: rgba(215,255,156,.48); color: #efffca; }
+    .hero-stat { color: #e2ff9a; }
+    .date-chip { align-self: center; background: rgba(255,255,255,.08); border-color: rgba(215,255,156,.19); color: #eff9e9; box-shadow: 0 12px 24px rgba(0,0,0,.15); }
+    .panel, .admin-panel, .metric, .chart-panel, .usage-panel, .club-settings {
+      background: linear-gradient(145deg, rgba(18, 42, 29, .96), rgba(9, 26, 18, .97));
+      border-color: rgba(211, 246, 197, .13);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.035);
+    }
+    .panel::before { background: linear-gradient(180deg, #d9ff69, #58d59b) !important; box-shadow: 0 0 16px rgba(200,244,90,.35); }
+    .panel-title, .time-head h3, .court-name, .admin-panel-title, .usage-title, .operations-title { color: #f1fbe9; }
+    .panel-subtitle, .court-info, .legend-item, .weekdays, .summary-sub { color: #9eae9d; }
+    .icon-button { background: rgba(255,255,255,.035); border-color: rgba(216,244,207,.13); color: #e7f7dd; }
+    .icon-button:hover { background: rgba(200,244,90,.15); border-color: rgba(200,244,90,.5); color: #d9ff69; }
+    .day { color: #eaf6e6; }
+    .day.muted, .day:disabled { color: #526256; }
+    .day:hover:not(:disabled) { background: rgba(200,244,90,.12); color: #d9ff69; }
+    .day.selected { background: #d9ff69; box-shadow: 0 8px 18px rgba(200,244,90,.22); color: #112719; }
+    .day.selected::after { background: #112719; }
+    .court-card, .time-button { background: rgba(255,255,255,.035); border-color: rgba(216,244,207,.12); color: #ecf9e7; }
+    .court-card:hover, .court-card.active { background: linear-gradient(145deg, rgba(200,244,90,.19), rgba(100,235,159,.12)); border-color: rgba(215,255,156,.6); box-shadow: 0 12px 28px rgba(0,0,0,.2), 0 0 0 1px rgba(215,255,156,.12); }
+    .court-number { background: rgba(216,255,112,.15); color: #dfff8a; }
+    .status { color: #82efb5; }
+    .status::before { background: #7effb7; box-shadow: 0 0 10px #7effb7; }
+    .time-button:hover { border-color: rgba(215,255,156,.58); color: #e7ffc0; }
+    .time-button.selected { background: #d9ff69; border-color: #d9ff69; box-shadow: 0 9px 20px rgba(200,244,90,.2); color: #102619; }
+    .time-button.selected .time-price { color: #2b5639; }
+    .time-price { color: #aebca9; }
+    .legend-dot.daylight { background: #ffb257; box-shadow: 0 0 8px #ffb257; }
+    .legend-dot.light { background: #d9ff69; box-shadow: 0 0 8px #d9ff69; }
+    .market-panel { background: linear-gradient(135deg, rgba(33, 39, 22, .98), rgba(15, 31, 20, .98)); }
+    .product { background: rgba(255,255,255,.035); border-color: rgba(216,244,207,.08); }
+    .product:hover { border-color: rgba(255,178,87,.56); box-shadow: 0 12px 25px rgba(0,0,0,.14); }
+    .product-name { color: #f1faea; }
+    .product-price { color: #a6b3a3; }
+    .product-prompt { color: #ffbd75; }
+    .quantity button { background: rgba(216,255,112,.13); color: #e0ff88; }
+    .summary { background: linear-gradient(160deg, #1d452c 0%, #0b2216 68%); border-color: rgba(215,255,156,.2); }
+    .summary-top { background: linear-gradient(135deg, rgba(78, 156, 89, .42), rgba(11, 45, 25, .86)); border-bottom: 1px solid rgba(215,255,156,.14); }
+    .summary-top::after { border-color: rgba(217,255,105,.18); }
+    .summary-label, .summary-total-label { color: #c9dcbd; }
+    .summary h2 { color: #f5ffed; }
+    .summary-date, .empty-selection { color: #a9c1aa; }
+    .summary-row { border-bottom-color: rgba(222,255,214,.12); }
+    .summary-item { color: #d3e3d0; }
+    .summary-value, .summary-total-value { color: #edffcf; }
+    .split-result { background: rgba(216,255,112,.09); border: 1px solid rgba(216,255,112,.14); }
+    .split-buttons button.active { background: #d9ff69; border-color: #d9ff69; box-shadow: 0 0 16px rgba(216,255,105,.2); color: #15301e; }
+    .contact-field input { background: rgba(255,255,255,.075); border-color: rgba(216,244,207,.18); }
+    .reserve-button { background: linear-gradient(100deg, #d9ff69, #82efb4); box-shadow: 0 12px 24px rgba(126,255,183,.16); color: #102519; }
+    .reserve-button:hover { background: linear-gradient(100deg, #e4ff8f, #a1ffc8); transform: translateY(-1px); }
+    .operations-header { background: linear-gradient(110deg, rgba(31, 72, 45, .93), rgba(13, 38, 24, .94)); border-color: rgba(215,255,156,.16); }
+    .metric { border-top-color: #d9ff69; }
+    .metric-value { color: #efffcb; }
+    .metric-note { color: #89eab0; }
+    .admin-table th { color: #9daf9d; }
+    .admin-table td { border-top-color: rgba(216,244,207,.1); }
+    .admin-table input, .admin-table select, .expense-form input, .settings-form input, .split-control select { background: rgba(255,255,255,.055); border-color: rgba(216,244,207,.16); color: #f1fbe9; }
+    .booking-detail-row td { background: rgba(255,255,255,.025); }
+    .check-item, .payer-item, .extra-line { background: rgba(255,255,255,.045); border-color: rgba(216,244,207,.13); color: #eef8e8; }
+    .payer-label { color: #eaffbe; }
+    .add-booking-icon, .small-button { background: #d9ff69; color: #12281b; }
+    .add-booking-icon:hover, .small-button:hover { background: #a8f477; color: #102519; }
+    .chart-bar, .debt-bar { background: linear-gradient(180deg, #e0ff7a, #52d69a); }
+    .login-card { background: #10271a; border: 1px solid rgba(216,244,207,.17); color: #eef9e8; }
+    .login-card input { background: rgba(255,255,255,.06); border-color: rgba(216,244,207,.17); color: #eff9e9; }
+    .login-hint { background: rgba(216,255,112,.09); }
+    .time-button:disabled, .court-card.unavailable { background: rgba(255,255,255,.018); border-color: rgba(216,244,207,.06); color: #617061; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .summary { position: static; }
+      .welcome { grid-template-columns: 1fr auto; padding: 31px; }
+      .hero-court { grid-row: span 2; width: 205px; }
+      .date-chip { align-self: end; justify-self: start; }
+    }
+    @media (max-width: 640px) {
+      .welcome { display: block; min-height: auto; padding: 29px 23px; }
+      .hero-court { margin: 24px 0 16px; max-width: none; transform: rotate(-2deg); width: 100%; }
+      .date-chip { width: fit-content; }
+      h1 { font-size: 36px; letter-spacing: -2.5px; }
+      .panel-header { align-items: flex-start; flex-direction: column; gap: 13px; }
+      .calendar-panel .panel-header { display: grid; grid-template-columns: 1fr; }
+      .calendar-nav { justify-content: space-between; width: 100%; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-court { animation: court-float 5s ease-in-out infinite; }
+      .court-card, .time-button, .product, .reserve-button { transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    }
+    @keyframes court-float { 50% { transform: rotate(-3deg) translateY(-5px); } }
   </style>
 </head>
 <body>
@@ -479,7 +672,7 @@
       <section class="welcome">
         <div>
           <p class="eyebrow">Experiencia de reserva</p>
-          <h1>Reservá la cancha.<br>Juntá al equ<span class="ball-i">i</span>po.</h1>
+          <h1>Reservá la cancha.<br>Juntá al <span class="team-word">equ<span class="ball-i">i</span>po.</span></h1>
           <p class="welcome-copy">Elegí día, cancha y horario. Sumá lo que necesites y compartí el total con tu equipo.</p>
         </div>
         <div class="hero-court" aria-label="Ilustración de una cancha de pádel"><span class="hero-stat">4 CANCHAS</span><span class="hero-badge">RESERVÁ EN 3 PASOS</span></div>
